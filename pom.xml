@@ -9,4 +9,11 @@
   <version>1.0-SNAPSHOT</version>
 
   <name>klammern-projekt</name>
+  <packaging>pom</packaging>
+
+  <modules>
+    <module>frontend</module>
+    <module>backend</module>
+  </modules>
+
 </project>
