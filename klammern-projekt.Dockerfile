@@ -4,7 +4,7 @@ ADD . /klammern-projekt
 WORKDIR /klammern-projekt
 
 # Prüfen ob alles in Ordnung ist
-RUN echo "Ordner inhalt:"
+RUN echo "Ordner Inhalt:"
 RUN ls -a
 
 # Build ausführen
