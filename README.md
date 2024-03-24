@@ -141,3 +141,6 @@ docker run --net idigath --name klammern-projekt -e SPRING_DATASOURCE_URL=jdbc:p
 5432/postgres -p 8080:8080 -d klammern-projekt
 ```
 
+## Erledigte Lektionen:
+
+* Lektion 1 - Grundarchitektur
