@@ -125,6 +125,11 @@ Danach ist der Geber an der Reihe.<br>
 Falls kein Spieler die offene Farbe spielen möchte, kann der Mitspieler des Gebers eine Trumpffarbe vorschlagen.<br>
 Wenn beide Spieler die Wahl des Trumpfs ablehnen, wird gepasst und neu gegeben.
 
+## Prozessablauf
+
+![Klammern-Ablauf](Klammern-Ablauf.png)
+[Oder als Pdf](./Klammern-Ablauf.pdf)
+
 ## Bilden und Ausführen
 
 Das Spiel ist in zwei Docker-Container unterteilt.
