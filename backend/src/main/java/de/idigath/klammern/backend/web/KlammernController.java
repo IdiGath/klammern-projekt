@@ -38,13 +38,13 @@ public class KlammernController {
     }
 
     /**
-     * Die Methode verarbeitet den übergebenen Zug im Spiel. Abhängig von der Phase und logischem Ergebnis, wird der
+     * Die Methode verarbeitet den übergebenen Zug im Spiel. Abhängig von der Phase und logischem Ergebnis wird der
      * neue Stand der Partie zurückgegeben.
      *
      * @param zug Spielzug
      * @return neuer Stand der Partie
      */
-    @PostMapping(value = "/spielen", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = "/zug", consumes = MediaType.APPLICATION_JSON_VALUE)
     public Object zugSpielen(@RequestBody Object zug) {
         //ToDo: Implementieren
         return null;
