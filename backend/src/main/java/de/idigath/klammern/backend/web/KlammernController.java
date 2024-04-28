@@ -1,5 +1,7 @@
 package de.idigath.klammern.backend.web;
 
+import de.idigath.klammern.backend.web.dto.Party;
+import de.idigath.klammern.backend.web.dto.Zug;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
@@ -23,7 +25,7 @@ public class KlammernController {
      * @return aktuelle Partie
      */
     @PostMapping(value = "/start")
-    public Object partieStarten() {
+    public Party partieStarten() {
         //ToDo: Implementieren
         return null;
     }
@@ -45,7 +47,7 @@ public class KlammernController {
      * @return neuer Stand der Partie
      */
     @PostMapping(value = "/zug", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public Object zugSpielen(@RequestBody Object zug) {
+    public Party zugSpielen(@RequestBody Zug zug) {
         //ToDo: Implementieren
         return null;
     }
