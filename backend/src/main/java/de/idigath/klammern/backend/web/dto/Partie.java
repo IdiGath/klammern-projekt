@@ -1,6 +1,11 @@
 package de.idigath.klammern.backend.web.dto;
 
-public class Party {
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+@Setter
+public class Partie {
 
     Stand stand;
     Runde runde;
