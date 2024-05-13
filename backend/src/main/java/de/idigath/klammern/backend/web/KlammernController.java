@@ -37,7 +37,7 @@ public class KlammernController {
     @PostMapping(value = "/start")
     public Partie partieStarten() {
         //ToDo: Implementieren
-        return getDummyParty();
+        return getDummyPartie();
     }
 
     /**
@@ -45,9 +45,9 @@ public class KlammernController {
      *
      * @return aktuell gestartete Partie
      */
-    @GetMapping(value = "/party")
-    public Partie getParty() {
-        return getDummyParty();
+    @GetMapping(value = "/partie")
+    public Partie getPartie() {
+        return getDummyPartie();
     }
 
     /**
@@ -69,10 +69,10 @@ public class KlammernController {
     @PostMapping(value = "/zug", consumes = MediaType.APPLICATION_JSON_VALUE)
     public Partie zugSpielen(@RequestBody Zug zug) {
         //ToDo: Implementieren
-        return getDummyParty();
+        return getDummyPartie();
     }
 
-    private Partie getDummyParty() {
+    private Partie getDummyPartie() {
         String spieler = "spieler";
         String gegner = "gegner";
         final var partie = new Partie();
