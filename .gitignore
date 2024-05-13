@@ -73,10 +73,10 @@ hs_err_pid*
 # Mac
 .DS_Store
 
-ui/node
+frontend/node
 node_modules
-ui/node_modules
-ui/dist
+frontend/node_modules
+frontend/dist
 backend/src/main/resources/public
 
 # local env files
