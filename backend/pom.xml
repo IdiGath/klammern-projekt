@@ -62,6 +62,7 @@
                                 <resource>
                                     <directory>${project.parent.basedir}/frontend/dist</directory>
                                     <includes>
+                                        <include>assets/</include>
                                         <include>css/</include>
                                         <include>js/</include>
                                         <include>static/</include>
