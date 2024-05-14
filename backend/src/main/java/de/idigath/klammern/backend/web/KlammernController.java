@@ -81,8 +81,7 @@ public class KlammernController {
         karten.put(spieler, getDummyKartenSpieler());
         karten.put(gegner, getDummyKartenGegner());
         runde.setKarten(karten);
-        runde.setTrumpf(Farbe.KREUZ);
-        runde.setTrumpfKarte(new Karte(Farbe.KREUZ, Wert.KOENIG));
+        runde.setTrumpf(new Karte(Farbe.KREUZ, Wert.KOENIG));
         runde.setReihenfolge(gegner);
         partie.setRunde(runde);
         final var stand = new Stand(spieler, gegner);
