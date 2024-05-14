@@ -1,8 +1,11 @@
 import axios from "axios";
 import type Partie from "@/types/Partie";
 
+const baseURL = 'http://localhost:8080/api/klammern';
+const developmentBaseURL = 'backend/klammern';
+
 const apiClient = axios.create({
-        baseURL: "backend/klammern",
+        baseURL: import.meta.env.DEV ? developmentBaseURL : baseURL,
         withCredentials: false,
         headers: {
             Accept: "application/json",
@@ -10,6 +13,7 @@ const apiClient = axios.create({
         }
     }
 );
+
 
 export default async function fetchPartie(): Promise<Partie> {
     console.log("fetchPartie ist aufgerufen")
