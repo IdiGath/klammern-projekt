@@ -7,5 +7,5 @@ package de.idigath.klammern.backend.model;
  * und der jeweiligen Farbe können die übergeordnete Klassen die Karte in der Runde richtig
  * interpretieren.
  */
-public record Karte(Farbe farbe, Wert kartenWert) {
+public record Karte(Farbe farbe, Wert wert) {
 }
