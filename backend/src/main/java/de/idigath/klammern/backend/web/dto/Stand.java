@@ -12,14 +12,14 @@ import java.util.Map;
 @Setter
 public class Stand {
 
-    Map<String, Integer> aktuell;
+    Map<String, Integer> punkte;
     Map<String, Integer> augen;
     List<Map<String, Integer>> historie;
 
     public Stand(String spielerName, String gegnerName) {
-        aktuell = new HashMap<>();
-        aktuell.put(spielerName, 0);
-        aktuell.put(gegnerName, 0);
+        punkte = new HashMap<>();
+        punkte.put(spielerName, 0);
+        punkte.put(gegnerName, 0);
         augen = new HashMap<>();
         augen.put(spielerName, 0);
         augen.put(gegnerName, 0);
