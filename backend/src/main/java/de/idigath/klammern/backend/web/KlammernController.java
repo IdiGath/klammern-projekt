@@ -7,10 +7,13 @@ import de.idigath.klammern.backend.web.dto.Partie;
 import de.idigath.klammern.backend.web.dto.Runde;
 import de.idigath.klammern.backend.web.dto.Stand;
 import de.idigath.klammern.backend.web.dto.Zug;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
+import java.lang.invoke.MethodHandles;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -27,6 +30,9 @@ import java.util.Set;
 @RestController
 @RequestMapping("api/klammern")
 public class KlammernController {
+
+    private static final Logger LOG =
+            LoggerFactory.getLogger(MethodHandles.lookup().lookupClass().getSimpleName());
 
     /**
      * Aufruf der Methode startet eine neue Partie, falls für die Session bereits eine Partie gestartet ist, wird
@@ -47,6 +53,7 @@ public class KlammernController {
      */
     @GetMapping(value = "/partie")
     public Partie getPartie() {
+        LOG.info("Die Methode getPartie wurde aufgerufen");
         return getDummyPartie();
     }
 
