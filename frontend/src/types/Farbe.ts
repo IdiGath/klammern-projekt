@@ -2,5 +2,6 @@ export enum Farbe {
     HERZ,
     KARO,
     PIK,
-    KREUZ
+    KREUZ,
+    EMPTY
 }

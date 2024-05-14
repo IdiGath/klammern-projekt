@@ -6,5 +6,6 @@ export enum Wert {
     BUBE,
     DAME,
     KOENIG,
-    ASS
+    ASS,
+    EMPTY,
 }
