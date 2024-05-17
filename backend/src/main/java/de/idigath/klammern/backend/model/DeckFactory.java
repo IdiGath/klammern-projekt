@@ -23,17 +23,23 @@ public class DeckFactory {
      */
     public static Deck createDeck(DeckTyp typ) {
         return switch (typ) {
-            case SPIELDECK -> {
-                Set<Karte> karten = new LinkedHashSet<>();
-                for (Farbe farbe : Farbe.values()) {
-                    for (Wert wert : Wert.values()) {
-                        Karte karte = new Karte(farbe, wert);
-                        karten.add(karte);
-                    }
-                }
-                yield new SpielDeck(karten);
-            }
-            case REIHE -> new Reihe(new LinkedHashSet<>());
+            case SPIELDECK -> getSpielDeck();
+            case REIHE -> getReihe();
         };
+    }
+
+    private static Reihe getReihe() {
+        return new Reihe(new LinkedHashSet<>());
+    }
+
+    private static SpielDeck getSpielDeck() {
+        Set<Karte> karten = new LinkedHashSet<>();
+        for (Farbe farbe : Farbe.values()) {
+            for (Wert wert : Wert.values()) {
+                Karte karte = new Karte(farbe, wert);
+                karten.add(karte);
+            }
+        }
+        return new SpielDeck(karten);
     }
 }
