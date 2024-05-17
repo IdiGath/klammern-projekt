@@ -21,10 +21,6 @@ import java.util.Set;
 
 /**
  * RestController um das Klammern-Spiel zu steuern.
- *
- * @author Ievgenii Izrailtenko
- * @version 1.0
- * @since 1.0
  */
 
 @RestController

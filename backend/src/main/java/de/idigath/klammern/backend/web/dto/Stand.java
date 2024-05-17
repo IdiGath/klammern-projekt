@@ -8,6 +8,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Das DTO repräsentiert den aktuellen Stand in der Partie. Das Objekt beinhaltet sowohl den aktuellen Stand der
+ * Runde, als auch der Stand der Partie inkl. Historie.
+ */
 @Getter
 @Setter
 public class Stand {

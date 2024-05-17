@@ -6,6 +6,10 @@ import lombok.Setter;
 
 import java.util.List;
 
+/**
+ * Das DTO repräsentiert gespielte Karten vom jeweiligen Spieler.
+ */
+
 @Getter
 @Setter
 public class Zugbestand {

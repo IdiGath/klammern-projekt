@@ -6,6 +6,10 @@ import lombok.Setter;
 
 import java.util.Objects;
 
+/**
+ * Das DTO repräsentiert einen gespielten Zug, welcher aus zwei Zugbeständen der beiden Spielern besteht.
+ */
+
 @Getter
 @Setter
 public class Zug {
