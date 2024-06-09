@@ -88,6 +88,15 @@ public abstract class Deck {
     }
 
     /**
+     * Gibt alle Karten vom Deck im Form einer Liste zurück.
+     *
+     * @return Alle im Deck vorhandene Karten.
+     */
+    public List<Karte> getSpielkartenList() {
+        return karten.stream().toList();
+    }
+
+    /**
      * Gibt die Anzahl der Spielkarten im Deck zurück.
      *
      * @return die Anzahl der Spielkarten im Deck
