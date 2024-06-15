@@ -3,6 +3,7 @@ package de.idigath.klammern.backend.service.vergleich;
 import de.idigath.klammern.backend.model.Wert;
 
 import java.util.Comparator;
+import java.util.Objects;
 
 /**
  * Die Klasse dient dem Kartenvergleich in einer Klammern-Runde. Abhängig von dem Trumpfparameter
@@ -25,18 +26,19 @@ public class KartenComparator implements Comparator<Wert> {
      */
     public static KartenComparator createKartenWertComparator(VergleichsTyp vergleichModus) {
 
-        return switch (vergleichModus) {
-            case REIHENFOLGE -> new KartenComparator(new KartenComparatorReihenfolge());
-            case STANDARD -> new KartenComparator(new KartenComparatorStandard());
-            case TRUMPF -> new KartenComparator(new KartenComparatorTrumpf());
+        Comparator<Wert> comparator = switch (vergleichModus) {
+            case REIHENFOLGE -> Comparator.comparingInt(w -> w.reihenfolge);
+            case STANDARD -> Comparator.comparingInt(w -> w.standardWert);
+            case TRUMPF -> Comparator.comparingInt(w -> w.trumpfWert);
         };
+        return new KartenComparator(comparator);
+
     }
 
     @Override
     public int compare(Wert ersteKarte, Wert zweiteKarte) {
-        if (ersteKarte == null || zweiteKarte == null) {
-            throw new NullPointerException("Kartenwerte können nicht verglichen werden");
-        }
+        Objects.requireNonNull(ersteKarte, "Erste Karte darf nicht null sein");
+        Objects.requireNonNull(zweiteKarte, "Zweite Karte darf nicht null sein");
 
         return comparator.compare(ersteKarte, zweiteKarte);
     }
