@@ -8,7 +8,7 @@ import java.util.Comparator;
  * Die untergeordnete Klasse für Kartenvergleich in einem Klammernspiel. Die Klasse vergleicht
  * Karten anhand dessen Wertigkeit bei einer Trumpffarbe.
  */
-public class KartenComparatorTrumpf implements Comparator<Wert> {
+class KartenComparatorTrumpf implements Comparator<Wert> {
 
     @Override
     public int compare(Wert ersteKarte, Wert zweiteKarte) {
