@@ -153,3 +153,4 @@ docker run --net idigath --name klammern-projekt -e SPRING_DATASOURCE_URL=jdbc:p
 * Lektion 3 - DTO
 * Lektion 4 - Modell
 * Lektion 5 - Kartenvergleich
+* Lektion 6 - Unit-Tests (Backend)
