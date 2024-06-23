@@ -11,7 +11,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 @SpringBootTest
-class KombinationTest {
+class KombinationComparatorTest {
 
     @Test
     void compare_zweiTerzenUndZweiFuenfziger_ok() {

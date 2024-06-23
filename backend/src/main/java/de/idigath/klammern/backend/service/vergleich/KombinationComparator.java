@@ -1,9 +1,6 @@
 package de.idigath.klammern.backend.service.vergleich;
 
-import de.idigath.klammern.backend.model.Deck;
-import de.idigath.klammern.backend.model.Farbe;
-import de.idigath.klammern.backend.model.Karte;
-import de.idigath.klammern.backend.model.Wert;
+import de.idigath.klammern.backend.model.*;
 
 import java.util.Comparator;
 import java.util.Iterator;
@@ -49,9 +46,10 @@ public class KombinationComparator implements Comparator<Deck> {
             throw new NullPointerException("Der übergebene Parameter is null");
         }
 
-        if (reihe.countSpielkarten() > 4 || reihe.countSpielkarten() < 3) {
+        if (reihe.countSpielkarten() != Kombination.TERZ.kartenAnzahl
+                && reihe.countSpielkarten() != Kombination.FUENFZIGER.kartenAnzahl) {
             throw new IllegalArgumentException(
-                    "Die übergebene Kartenreihe ist keine gültige Kombination");
+                    "Die übergebene Kartenreihe ist keine gültige Kombination für den Vergleich");
         }
 
         Set<Farbe> farben =
