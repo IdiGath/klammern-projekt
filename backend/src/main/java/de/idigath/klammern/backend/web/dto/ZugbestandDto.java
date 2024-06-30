@@ -1,6 +1,7 @@
 package de.idigath.klammern.backend.web.dto;
 
 import de.idigath.klammern.backend.model.Karte;
+import de.idigath.klammern.backend.model.Spieler;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -12,9 +13,9 @@ import java.util.List;
 
 @Getter
 @Setter
-public class Zugbestand {
+public class ZugbestandDto {
 
-    String spieler;
+    Spieler spieler;
     List<Karte> inhalt;
 
 }

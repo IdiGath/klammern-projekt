@@ -12,10 +12,10 @@ import java.util.Objects;
 
 @Getter
 @Setter
-public class Zug {
+public class ZugDto {
 
-    Zugbestand beginner;
-    Zugbestand decker;
+    ZugbestandDto beginner;
+    ZugbestandDto decker;
 
     public boolean isVollstaendig() {
         return Objects.nonNull(beginner) && Objects.nonNull(decker);

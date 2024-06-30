@@ -2,11 +2,12 @@ package de.idigath.klammern.backend.web;
 
 import de.idigath.klammern.backend.model.Farbe;
 import de.idigath.klammern.backend.model.Karte;
+import de.idigath.klammern.backend.model.Spieler;
 import de.idigath.klammern.backend.model.Wert;
-import de.idigath.klammern.backend.web.dto.Partie;
-import de.idigath.klammern.backend.web.dto.Runde;
-import de.idigath.klammern.backend.web.dto.Stand;
-import de.idigath.klammern.backend.web.dto.Zug;
+import de.idigath.klammern.backend.web.dto.PartieDto;
+import de.idigath.klammern.backend.web.dto.RundeDto;
+import de.idigath.klammern.backend.web.dto.StandDto;
+import de.idigath.klammern.backend.web.dto.ZugDto;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -37,7 +38,7 @@ public class KlammernController {
      * @return aktuelle Partie
      */
     @PostMapping(value = "/start")
-    public Partie partieStarten() {
+    public PartieDto partieStarten() {
         //ToDo: Implementieren
         return getDummyPartie();
     }
@@ -48,7 +49,7 @@ public class KlammernController {
      * @return aktuell gestartete Partie
      */
     @GetMapping(value = "/partie")
-    public Partie getPartie() {
+    public PartieDto getPartie() {
         LOG.info("Die Methode getPartie wurde aufgerufen");
         return getDummyPartie();
     }
@@ -66,28 +67,26 @@ public class KlammernController {
      * Die Methode verarbeitet den übergebenen Zug im Spiel. Abhängig von der Phase und logischem Ergebnis wird der
      * neue Stand der Partie zurückgegeben.
      *
-     * @param zug Spielzug
+     * @param zugDto Spielzug
      * @return neuer Stand der Partie
      */
     @PostMapping(value = "/zug", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public Partie zugSpielen(@RequestBody Zug zug) {
+    public PartieDto zugSpielen(@RequestBody ZugDto zugDto) {
         //ToDo: Implementieren
         return getDummyPartie();
     }
 
-    private Partie getDummyPartie() {
-        String spieler = "spieler";
-        String gegner = "gegner";
-        final var partie = new Partie();
-        final var runde = new Runde();
-        Map<String, Set<Karte>> karten = new HashMap<>();
-        karten.put(spieler, getDummyKartenSpieler());
-        karten.put(gegner, getDummyKartenGegner());
+    private PartieDto getDummyPartie() {
+        final var partie = new PartieDto();
+        final var runde = new RundeDto();
+        Map<Spieler, Set<Karte>> karten = new HashMap<>();
+        karten.put(Spieler.SPIELER, getDummyKartenSpieler());
+        karten.put(Spieler.GEGNER, getDummyKartenGegner());
         runde.setKarten(karten);
         runde.setTrumpf(new Karte(Farbe.KREUZ, Wert.KOENIG));
-        runde.setReihenfolge(gegner);
+        runde.setBeginner(Spieler.GEGNER);
         partie.setRunde(runde);
-        final var stand = new Stand(spieler, gegner);
+        final var stand = new StandDto(Spieler.SPIELER, Spieler.GEGNER);
         partie.setStand(stand);
 
         return partie;

@@ -1,5 +1,6 @@
 package de.idigath.klammern.backend.web.dto;
 
+import de.idigath.klammern.backend.model.Spieler;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -14,20 +15,19 @@ import java.util.Map;
  */
 @Getter
 @Setter
-public class Stand {
+public class StandDto {
 
-    Map<String, Integer> punkte;
-    Map<String, Integer> augen;
-    List<Map<String, Integer>> historie;
+    Map<Spieler, Integer> punkte;
+    Map<Spieler, Integer> augen;
+    List<Map<Spieler, Integer>> historie = new ArrayList<>();
 
-    public Stand(String spielerName, String gegnerName) {
+    public StandDto(Spieler spieler, Spieler gegner) {
         punkte = new HashMap<>();
-        punkte.put(spielerName, 0);
-        punkte.put(gegnerName, 0);
+        punkte.put(spieler, 0);
+        punkte.put(gegner, 0);
         augen = new HashMap<>();
-        augen.put(spielerName, 0);
-        augen.put(gegnerName, 0);
-        historie = new ArrayList<>();
+        augen.put(spieler, 0);
+        augen.put(gegner, 0);
     }
 
 }

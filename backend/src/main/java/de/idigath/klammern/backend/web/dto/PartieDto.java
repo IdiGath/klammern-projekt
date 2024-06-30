@@ -8,9 +8,9 @@ import lombok.Setter;
  */
 @Getter
 @Setter
-public class Partie {
+public class PartieDto {
 
-    Stand stand;
-    Runde runde;
+    StandDto stand;
+    RundeDto runde;
 
 }
