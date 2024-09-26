@@ -4,12 +4,14 @@ import de.idigath.klammern.backend.model.Farbe;
 import de.idigath.klammern.backend.model.Karte;
 import de.idigath.klammern.backend.model.Spieler;
 import de.idigath.klammern.backend.model.Wert;
+import de.idigath.klammern.backend.service.spiel.Partie;
 import de.idigath.klammern.backend.web.dto.PartieDto;
 import de.idigath.klammern.backend.web.dto.RundeDto;
 import de.idigath.klammern.backend.web.dto.StandDto;
 import de.idigath.klammern.backend.web.dto.ZugDto;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
@@ -30,6 +32,13 @@ public class KlammernController {
 
     private static final Logger LOG =
             LoggerFactory.getLogger(MethodHandles.lookup().lookupClass().getSimpleName());
+
+    private Partie partie;
+
+    @Autowired
+    public KlammernController(Partie partie) {
+        this.partie = partie;
+    }
 
     /**
      * Aufruf der Methode startet eine neue Partie, falls für die Session bereits eine Partie gestartet ist, wird
