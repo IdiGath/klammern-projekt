@@ -32,6 +32,18 @@ class StandTest {
         stand.addGegnerPunkte(zweiterSummand);
 
         assertThat(erwartetesErgebnis).isEqualTo(stand.getGegnerPunkte());
+    }
+
+    @Test
+    void copyStand() {
+        Stand stand = new Stand();
+        stand.addSpielerPunkte(99);
+        stand.addGegnerPunkte(11);
+
+        Stand copyStand = new Stand(stand);
+
+        assertThat(stand).isEqualTo(copyStand);
+        assertThat(stand).isNotSameAs(copyStand);
 
     }
 }
