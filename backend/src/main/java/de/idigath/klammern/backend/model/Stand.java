@@ -5,6 +5,10 @@ import lombok.ToString;
 import java.util.EnumMap;
 import java.util.Map;
 
+/**
+ * Die Klasse besteht aus einer Map, welche den Stand von jeweiligem Spieler führt. Die Klasse kommt zum Einsatz
+ * sowohl in der Runde, als auch in der gesamten Parte statt.
+ */
 @ToString
 public class Stand {
     private final Map<Spieler, Integer> standMap = new EnumMap<>(Spieler.class);
