@@ -1,10 +1,19 @@
 package de.idigath.klammern.backend.model;
 
 
+import lombok.Getter;
+
 /**
  * Die Klasse beinhaltet Enums für jeden möglichen Spieler im Klammern-Spiel.
  */
+@Getter
 public enum Spieler {
-    SPIELER,
-    GEGNER
+    SPIELER("SPIELER"),
+    GEGNER("GEGNER");
+
+    private final String name;
+
+    Spieler(String name) {
+        this.name = name;
+    }
 }

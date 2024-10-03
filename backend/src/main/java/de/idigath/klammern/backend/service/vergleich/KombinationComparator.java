@@ -46,8 +46,8 @@ public class KombinationComparator implements Comparator<Deck> {
             throw new NullPointerException("Der übergebene Parameter is null");
         }
 
-        if (reihe.countSpielkarten() != Kombination.TERZ.kartenAnzahl
-                && reihe.countSpielkarten() != Kombination.FUENFZIGER.kartenAnzahl) {
+        if (reihe.countSpielkarten() != Kombination.TERZ.getKartenAnzahl()
+                && reihe.countSpielkarten() != Kombination.FUENFZIGER.getKartenAnzahl()) {
             throw new IllegalArgumentException(
                     "Die übergebene Kartenreihe ist keine gültige Kombination für den Vergleich");
         }
