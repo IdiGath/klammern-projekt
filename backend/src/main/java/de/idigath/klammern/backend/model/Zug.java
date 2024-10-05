@@ -20,17 +20,22 @@ public class Zug {
     private Spieler decker;
 
 
+    /**
+     * Erzeugt ein Objekt und befüllt dabei den Inhalt des Zuges.
+     */
     public Zug() {
         inhalt.put(Spieler.SPIELER, new ArrayList<>());
         inhalt.put(Spieler.GEGNER, new ArrayList<>());
     }
 
+    /**
+     * Fügt eine Karte jeweiligem Spieler hinzu.
+     *
+     * @param spieler betroffener Spieler
+     * @param karte   neue Karte
+     */
     public void addKarte(Spieler spieler, Karte karte) {
-        getKarten(spieler).add(karte);
-    }
-
-    private List<Karte> getKarten(Spieler spieler) {
-        return inhalt.get(spieler);
+        inhalt.get(spieler).add(karte);
     }
 
 }
