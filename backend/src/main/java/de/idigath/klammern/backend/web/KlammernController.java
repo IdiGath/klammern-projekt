@@ -1,14 +1,8 @@
 package de.idigath.klammern.backend.web;
 
-import de.idigath.klammern.backend.model.Farbe;
-import de.idigath.klammern.backend.model.Karte;
-import de.idigath.klammern.backend.model.Spieler;
-import de.idigath.klammern.backend.model.Wert;
+import de.idigath.klammern.backend.model.*;
 import de.idigath.klammern.backend.service.spiel.Partie;
-import de.idigath.klammern.backend.web.dto.PartieDto;
-import de.idigath.klammern.backend.web.dto.RundeDto;
-import de.idigath.klammern.backend.web.dto.StandDto;
-import de.idigath.klammern.backend.web.dto.ZugDto;
+import de.idigath.klammern.backend.web.dto.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,13 +11,9 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import java.lang.invoke.MethodHandles;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
 
 /**
- * RestController um das Klammern-Spiel zu steuern.
+ * RestController um das Klammern-Spiel zu steuern. Die Klasse beinhaltet u.a. Methoden um die Model-Klassen zu Mappen.
  */
 
 @RestController
@@ -33,43 +23,11 @@ public class KlammernController {
     private static final Logger LOG =
             LoggerFactory.getLogger(MethodHandles.lookup().lookupClass().getSimpleName());
 
-    private Partie partie;
+    private final Partie partie;
 
     @Autowired
     public KlammernController(Partie partie) {
         this.partie = partie;
-    }
-
-    /**
-     * Aufruf der Methode startet eine neue Partie, falls für die Session bereits eine Partie gestartet ist, wird
-     * aktuelle Partie zurückgegeben.
-     *
-     * @return aktuelle Partie
-     */
-    @PostMapping(value = "/start")
-    public PartieDto partieStarten() {
-        //ToDo: Implementieren
-        return getDummyPartie();
-    }
-
-    /**
-     * Liefert den aktuellen Stand der Partie anhand der Session.
-     *
-     * @return aktuell gestartete Partie
-     */
-    @GetMapping(value = "/partie")
-    public PartieDto getPartie() {
-        LOG.info("Die Methode getPartie wurde aufgerufen");
-        return getDummyPartie();
-    }
-
-    /**
-     * Beendet laufende Partie. Die erfolgreiche Verarbeitung wird mit dem Status 200 zurückgegeben.
-     */
-    @PostMapping(value = "/stop")
-    @ResponseStatus(HttpStatus.OK)
-    public void partieAufgeben() {
-        //ToDo: Implementieren
     }
 
     /**
@@ -80,51 +38,80 @@ public class KlammernController {
      * @return neuer Stand der Partie
      */
     @PostMapping(value = "/zug", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public PartieDto zugSpielen(@RequestBody ZugDto zugDto) {
-        //ToDo: Implementieren
-        return getDummyPartie();
+    public PartieDto spieleZug(@RequestBody ZugDto zugDto) {
+        var zug = mapDtoToZug(zugDto);
+        partie.spieleZug(zug);
+        return mapAktuellePartie();
     }
 
-    private PartieDto getDummyPartie() {
-        final var partie = new PartieDto();
+
+    private Zug mapDtoToZug(ZugDto zugDto) {
+        Spieler beginner = Spieler.valueOf(zugDto.getBeginner());
+        Spieler decker = Spieler.valueOf(zugDto.getDecker());
+        Zug zug = new Zug();
+        zug.setBeginner(beginner);
+        zug.setDecker(decker);
+        zugDto.getBeginnerKarten().stream()
+                .map(this::mapDtoToKarte)
+                .forEach(e -> zug.addKarte(beginner, e));
+        zugDto.getDeckerKarten().stream()
+                .map(this::mapDtoToKarte)
+                .forEach(e -> zug.addKarte(decker, e));
+        return zug;
+    }
+
+    private Karte mapDtoToKarte(KarteDto karteDto) {
+        return new Karte(Farbe.valueOf(karteDto.farbe()), Wert.valueOf(karteDto.wert()));
+    }
+
+    /**
+     * Liefert den aktuellen Stand der Partie anhand der Session.
+     *
+     * @return aktuell gestartete Partie
+     */
+    @GetMapping(value = "/partie")
+    public PartieDto getPartie() {
+        LOG.info("Die Methode getPartie wurde aufgerufen");
+        return mapAktuellePartie();
+    }
+
+    private PartieDto mapAktuellePartie() {
         final var runde = new RundeDto();
-        Map<Spieler, Set<Karte>> karten = new HashMap<>();
-        karten.put(Spieler.SPIELER, getDummyKartenSpieler());
-        karten.put(Spieler.GEGNER, getDummyKartenGegner());
-        runde.setKarten(karten);
-        runde.setTrumpf(new Karte(Farbe.KREUZ, Wert.KOENIG));
-        runde.setBeginner(Spieler.GEGNER);
-        partie.setRunde(runde);
-        final var stand = new StandDto(Spieler.SPIELER, Spieler.GEGNER);
-        partie.setStand(stand);
+        runde.setBeginner(partie.getBeginner().getName());
+        runde.setTrumpf(partie.getTrumpf().getName());
+        runde.setTrumpfKarte(mapKarteToDto(partie.getTrumpfKarte()));
+        runde.setSpielerKarten(partie.getSpielerKarten().stream().map(this::mapKarteToDto).toList());
+        runde.setGegnerKarten(partie.getGegnerKarten().stream().map(this::mapKarteToDto).toList());
+        var stand = mapStandToDto();
+        return new PartieDto(stand, runde);
+    }
 
-        return partie;
+    private KarteDto mapKarteToDto(Karte karte) {
+        return new KarteDto(karte.farbe().getName(), karte.wert().getName());
+    }
+
+    private StandDto mapStandToDto() {
+        final var stand = new StandDto(Spieler.SPIELER.getName(), Spieler.GEGNER.getName());
+        stand.setPunkte(Spieler.SPIELER.getName(), partie.getSpielerPunkte());
+        stand.setPunkte(Spieler.GEGNER.getName(), partie.getGegnerPunkte());
+        stand.setAugen(Spieler.SPIELER.getName(), partie.getSpielerAugen());
+        stand.setAugen(Spieler.GEGNER.getName(), partie.getGegnerAugen());
+
+        for (Stand element : partie.getHistorie()) {
+            stand.addMapZurHistorie(element.getStandAsMap());
+        }
+
+        return stand;
+    }
+
+    /**
+     * Beendet laufende Partie. Die erfolgreiche Verarbeitung wird mit dem Status 200 zurückgegeben.
+     */
+    @PostMapping(value = "/stop")
+    @ResponseStatus(HttpStatus.OK)
+    public void partieAufgeben() {
+        partie.aufgeben();
     }
 
 
-    private Set<Karte> getDummyKartenSpieler() {
-        Set<Karte> kartenSpieler = new HashSet<>();
-        kartenSpieler.add(new Karte(Farbe.HERZ, Wert.SIEBEN));
-        kartenSpieler.add(new Karte(Farbe.KARO, Wert.SIEBEN));
-        kartenSpieler.add(new Karte(Farbe.PIK, Wert.SIEBEN));
-        kartenSpieler.add(new Karte(Farbe.KREUZ, Wert.SIEBEN));
-        kartenSpieler.add(new Karte(Farbe.KREUZ, Wert.ACHT));
-        kartenSpieler.add(new Karte(Farbe.KREUZ, Wert.NEUN));
-        kartenSpieler.add(new Karte(Farbe.KREUZ, Wert.ZEHN));
-        kartenSpieler.add(new Karte(Farbe.KREUZ, Wert.BUBE));
-        return kartenSpieler;
-    }
-
-    private Set<Karte> getDummyKartenGegner() {
-        Set<Karte> katenGegner = new HashSet<>();
-        katenGegner.add(new Karte(Farbe.HERZ, Wert.ASS));
-        katenGegner.add(new Karte(Farbe.KARO, Wert.ASS));
-        katenGegner.add(new Karte(Farbe.PIK, Wert.ASS));
-        katenGegner.add(new Karte(Farbe.KREUZ, Wert.ASS));
-        katenGegner.add(new Karte(Farbe.HERZ, Wert.ZEHN));
-        katenGegner.add(new Karte(Farbe.HERZ, Wert.BUBE));
-        katenGegner.add(new Karte(Farbe.HERZ, Wert.DAME));
-        katenGegner.add(new Karte(Farbe.HERZ, Wert.KOENIG));
-        return katenGegner;
-    }
 }
