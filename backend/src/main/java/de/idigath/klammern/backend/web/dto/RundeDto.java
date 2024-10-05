@@ -1,12 +1,9 @@
 package de.idigath.klammern.backend.web.dto;
 
-import de.idigath.klammern.backend.model.Karte;
-import de.idigath.klammern.backend.model.Spieler;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.Map;
-import java.util.Set;
+import java.util.List;
 
 /**
  * Das DTO repräsentiert die aktuelle Runde. Das Objekt beinhaltet nur die Informationen für die Anzeige in Web,
@@ -16,8 +13,10 @@ import java.util.Set;
 @Setter
 public class RundeDto {
 
-    Spieler beginner;
-    Karte trumpf;
-    Map<Spieler, Set<Karte>> karten;
+    private String trumpf;
+    private KarteDto trumpfKarte;
+    private List<KarteDto> spielerKarten;
+    private List<KarteDto> gegnerKarten;
+    private String beginner;
 
 }
