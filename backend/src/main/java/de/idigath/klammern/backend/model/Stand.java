@@ -4,6 +4,7 @@ import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
 import java.util.EnumMap;
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -73,6 +74,19 @@ public class Stand {
         Integer altePunkte = standMap.get(spieler);
         Integer newPunkte = punkte + altePunkte;
         standMap.put(spieler, newPunkte);
+    }
+
+    /**
+     * Liefert den aktuellen Stand als Map ohne weiteren Dependencies zurück.
+     *
+     * @return Stand
+     */
+    public Map<String, Integer> getStandAsMap() {
+        Map<String, Integer> result = new HashMap<>();
+        for (Map.Entry<Spieler, Integer> entry : standMap.entrySet()) {
+            result.put(entry.getKey().getName(), entry.getValue());
+        }
+        return result;
     }
 
 }
