@@ -35,7 +35,7 @@ public class KombinationComparator implements Comparator<Deck> {
                             .sorted(KartenComparator.createKartenWertComparator(VergleichsTyp.REIHENFOLGE))
                             .iterator()
                             .next();
-            return Integer.compare(ersterWert.reihenfolge, zweiterWert.reihenfolge);
+            return Integer.compare(ersterWert.getReihenfolge(), zweiterWert.getReihenfolge());
         }
 
         return basicResult;
@@ -68,7 +68,7 @@ public class KombinationComparator implements Comparator<Deck> {
         Wert ersteSpielkarte = iterator.next();
         while (iterator.hasNext()) {
             Wert folgendeSpielkarte = iterator.next();
-            int differenz = folgendeSpielkarte.reihenfolge - ersteSpielkarte.reihenfolge;
+            int differenz = folgendeSpielkarte.getReihenfolge() - ersteSpielkarte.getReihenfolge();
             if (differenz != 1) {
                 throw new IllegalArgumentException(
                         "Ungültige Reihenfolge in der Reihenkombination: " + reihe.getSpielkartenList());

@@ -27,9 +27,9 @@ public class KartenComparator implements Comparator<Wert> {
     public static KartenComparator createKartenWertComparator(VergleichsTyp vergleichModus) {
 
         Comparator<Wert> comparator = switch (vergleichModus) {
-            case REIHENFOLGE -> Comparator.comparingInt(w -> w.reihenfolge);
-            case STANDARD -> Comparator.comparingInt(w -> w.standardWert);
-            case TRUMPF -> Comparator.comparingInt(w -> w.trumpfWert);
+            case REIHENFOLGE -> Comparator.comparingInt(Wert::getReihenfolge);
+            case STANDARD -> Comparator.comparingInt(Wert::getStandardWert);
+            case TRUMPF -> Comparator.comparingInt(Wert::getTrumpfWert);
         };
         return new KartenComparator(comparator);
 
