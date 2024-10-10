@@ -112,6 +112,4 @@ public class KlammernController {
     public void partieAufgeben() {
         partie.aufgeben();
     }
-
-
 }
