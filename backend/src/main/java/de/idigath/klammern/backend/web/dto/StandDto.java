@@ -9,7 +9,9 @@ import java.util.Map;
  * Das DTO repräsentiert den aktuellen Stand in der Partie. Das Objekt beinhaltet sowohl den aktuellen Stand der
  * Runde, als auch der Stand der Partie ink. Historie.
  * <p>
- * Die Klasse setzt auf String-Werte, um die Abhängigkeiten von Model-Package zu vermeiden.
+ * Die Klasse verwendet String-Werte, um die Abhängigkeiten von Model-Package zu vermeiden.
+ *
+ * @see de.idigath.klammern.backend.model.Spieler
  */
 public class StandDto {
 
