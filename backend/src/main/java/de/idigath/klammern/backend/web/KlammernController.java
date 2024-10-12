@@ -65,7 +65,7 @@ public class KlammernController {
     }
 
     /**
-     * Liefert den aktuellen Stand der Partie anhand der Session.
+     * Liefert den aktuellen Stand der Partie anhand der Session zurück.
      *
      * @return aktuell gestartete Partie
      */
@@ -78,12 +78,11 @@ public class KlammernController {
     private PartieDto mapAktuellePartie() {
         final var runde = new RundeDto();
         runde.setBeginner(partie.getBeginner().getName());
-        runde.setTrumpf(partie.getTrumpf().getName());
         runde.setTrumpfKarte(mapKarteToDto(partie.getTrumpfKarte()));
         runde.setSpielerKarten(partie.getSpielerKarten().stream().map(this::mapKarteToDto).toList());
         runde.setGegnerKarten(partie.getGegnerKarten().stream().map(this::mapKarteToDto).toList());
         var stand = mapStandToDto();
-        return new PartieDto(stand, runde);
+        return new PartieDto(stand, runde, partie.isBeendet());
     }
 
     private KarteDto mapKarteToDto(Karte karte) {

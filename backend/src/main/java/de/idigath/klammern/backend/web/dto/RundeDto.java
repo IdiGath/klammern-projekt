@@ -12,8 +12,7 @@ import java.util.List;
 @Getter
 @Setter
 public class RundeDto {
-
-    private String trumpf;
+    
     private KarteDto trumpfKarte;
     private List<KarteDto> spielerKarten;
     private List<KarteDto> gegnerKarten;
