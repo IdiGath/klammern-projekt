@@ -4,6 +4,7 @@ import de.idigath.klammern.backend.model.Karte;
 import de.idigath.klammern.backend.model.Spieler;
 import de.idigath.klammern.backend.model.Stand;
 import de.idigath.klammern.backend.model.Zug;
+import de.idigath.klammern.backend.service.Partie;
 import org.springframework.stereotype.Service;
 
 import java.util.LinkedList;
@@ -11,7 +12,7 @@ import java.util.List;
 import java.util.Random;
 
 @Service
-public class Partie {
+public class PartieImpl implements Partie {
     private final Random random = new Random();
     private List<Stand> historie;
     private Stand augen;
@@ -20,7 +21,7 @@ public class Partie {
     /**
      * Erstellt eine neue Instanz der Partie
      */
-    public Partie() {
+    public PartieImpl() {
         initPartie();
     }
 
@@ -33,6 +34,7 @@ public class Partie {
      *
      * @return Augen
      */
+    @Override
     public Integer getSpielerAugen() {
         return augen.getSpielerPunkte();
     }
@@ -42,6 +44,7 @@ public class Partie {
      *
      * @return Augen
      */
+    @Override
     public Integer getGegnerAugen() {
         return augen.getGegnerPunkte();
     }
@@ -51,6 +54,7 @@ public class Partie {
      *
      * @return Punkte
      */
+    @Override
     public Integer getSpielerPunkte() {
         return runde.getSpielerPunkte();
     }
@@ -60,6 +64,7 @@ public class Partie {
      *
      * @return Punkte
      */
+    @Override
     public Integer getGegnerPunkte() {
         return runde.getGegnerPunkte();
     }
@@ -69,6 +74,7 @@ public class Partie {
      *
      * @return Historie in Form einer Liste
      */
+    @Override
     public List<Stand> getHistorie() {
         List<Stand> result = new LinkedList<>();
         for (Stand element : historie) {
@@ -82,6 +88,7 @@ public class Partie {
      *
      * @return Beginner
      */
+    @Override
     public Spieler getBeginner() {
         return runde.getBeginner();
     }
@@ -91,6 +98,7 @@ public class Partie {
      *
      * @return Trumpfkarte
      */
+    @Override
     public Karte getTrumpfKarte() {
         return runde.getTrumpfKarte();
     }
@@ -100,6 +108,7 @@ public class Partie {
      *
      * @return Kartenliste
      */
+    @Override
     public List<Karte> getSpielerKarten() {
         return runde.getSpielerKarten();
     }
@@ -109,6 +118,7 @@ public class Partie {
      *
      * @return Kartenliste
      */
+    @Override
     public List<Karte> getGegnerKarten() {
         return runde.getGegnerKarten();
     }
@@ -116,6 +126,7 @@ public class Partie {
     /**
      * Der Spieler gibt die jeweilige Partie aus.
      */
+    @Override
     public void aufgeben() {
         initPartie();
     }
@@ -131,6 +142,7 @@ public class Partie {
      *
      * @param zug Spielzug
      */
+    @Override
     public void spieleZug(Zug zug) {
         runde.spieleZug(zug);
 
@@ -140,10 +152,11 @@ public class Partie {
     }
 
     /**
-     * Gibt die Information zurück ob die aktuelle Partie beendet ist.
+     * Gibt die Information zurück, ob die aktuelle Partie beendet ist.
      *
      * @return true wenn Partie beendet ist
      */
+    @Override
     public boolean isBeendet() {
         return false;
     }

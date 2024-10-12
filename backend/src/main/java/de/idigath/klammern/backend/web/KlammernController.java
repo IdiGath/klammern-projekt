@@ -1,7 +1,7 @@
 package de.idigath.klammern.backend.web;
 
 import de.idigath.klammern.backend.model.*;
-import de.idigath.klammern.backend.service.spiel.Partie;
+import de.idigath.klammern.backend.service.spiel.PartieImpl;
 import de.idigath.klammern.backend.web.dto.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,10 +23,10 @@ public class KlammernController {
     private static final Logger LOG =
             LoggerFactory.getLogger(MethodHandles.lookup().lookupClass().getSimpleName());
 
-    private final Partie partie;
+    private final PartieImpl partie;
 
     @Autowired
-    public KlammernController(Partie partie) {
+    public KlammernController(PartieImpl partie) {
         this.partie = partie;
     }
 
