@@ -77,6 +77,11 @@ public interface Partie {
     void aufgeben();
 
     /**
+     * Beginnt die Parte von neu.
+     */
+    void neuBeginnen();
+
+    /**
      * Spielt der Zug für die aktuelle Runde.
      *
      * @param zug Spielzug
@@ -88,5 +93,13 @@ public interface Partie {
      *
      * @return true wenn Partie beendet ist
      */
-    boolean isBeendet();
+    boolean isFertig();
+
+    /**
+     * Gib zurück den gewinner der Partie. Bis es Entschieden ist, kommt der Wert vom Spieler.NIEMAND zurück.
+     *
+     * @return Gewinner der Partie
+     * @see de.idigath.klammern.backend.model.Spieler
+     */
+    Spieler getGewinner();
 }

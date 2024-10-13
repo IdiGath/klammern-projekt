@@ -9,7 +9,8 @@ import lombok.Getter;
 @Getter
 public enum Spieler {
     SPIELER("SPIELER"),
-    GEGNER("GEGNER");
+    GEGNER("GEGNER"),
+    NIEMAND("NIEMAND");
 
     private final String name;
 

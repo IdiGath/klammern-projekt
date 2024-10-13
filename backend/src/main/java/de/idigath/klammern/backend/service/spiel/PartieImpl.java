@@ -11,18 +11,32 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
 
+/**
+ * Standardimplementierung der Partie. Jede Partie besteht aus der gespielten Runde, einen Stand in Augen sowie seine
+ * Historie in Punkten. Solange das Spiel nur für einen Spieler geeignet ist, wird die Klasse als ein Bean zur
+ * Verfügung gestellt, weil mehrere Partien nicht unterstützt werden müssen.
+ */
 @Service
 public class PartieImpl implements Partie {
+    private static final int ZIEL_AUGEN = 51;
     private final Random random = new Random();
     private List<Stand> historie;
     private Stand augen;
     private Runde runde;
+    private Spieler gewinner;
 
     /**
      * Erstellt eine neue Instanz der Partie
      */
     public PartieImpl() {
         initPartie();
+    }
+
+    private void initPartie() {
+        runde = new Runde(ermittleBeginner());
+        augen = new Stand();
+        historie = new LinkedList<>();
+        gewinner = Spieler.NIEMAND;
     }
 
     private Spieler ermittleBeginner() {
@@ -128,13 +142,19 @@ public class PartieImpl implements Partie {
      */
     @Override
     public void aufgeben() {
-        initPartie();
+        aktualisiereStand();
+        gewinner = Spieler.GEGNER;
     }
 
-    private void initPartie() {
-        runde = new Runde(ermittleBeginner());
-        augen = new Stand();
-        historie = new LinkedList<>();
+    /**
+     * Beginnt die Parte von neu.
+     */
+    @Override
+    public void neuBeginnen() {
+        if (gewinner.equals(Spieler.NIEMAND)) {
+            throw new IllegalStateException("Die Partie ist noch nicht beendet um sie neu beginnen zu können.");
+        }
+        initPartie();
     }
 
     /**
@@ -145,9 +165,11 @@ public class PartieImpl implements Partie {
     @Override
     public void spieleZug(Zug zug) {
         runde.spieleZug(zug);
-
         if (!runde.isSpielbar()) {
-            beendePartie();
+            beendeRunde();
+            if (isFertig()) {
+                beendePartie();
+            }
         }
     }
 
@@ -157,11 +179,56 @@ public class PartieImpl implements Partie {
      * @return true wenn Partie beendet ist
      */
     @Override
-    public boolean isBeendet() {
-        return false;
+    public boolean isFertig() {
+        return !gewinner.equals(Spieler.NIEMAND) || getGegnerAugen() >= ZIEL_AUGEN || getSpielerAugen() >= ZIEL_AUGEN;
+    }
+
+    private void beendeRunde() {
+        aktualisiereStand();
+        runde = new Runde(runde.getBeginner());
+    }
+
+    private void aktualisiereStand() {
+        Stand stand = new Stand();
+        stand.addGegnerPunkte(runde.getGegnerPunkte());
+        stand.addSpielerPunkte(runde.getSpielerPunkte());
+        historie.add(stand);
+        augen.addSpielerPunkte(convertPunkteInAugen(runde.getSpielerPunkte()));
+        augen.addGegnerPunkte(convertPunkteInAugen(runde.getGegnerPunkte()));
+    }
+
+    private int convertPunkteInAugen(int punkte) {
+        return Math.round((float) punkte / 10);
     }
 
     private void beendePartie() {
+        aktualisiereStand();
+        gewinner = ermittleGewinner();
 
     }
+
+    private Spieler ermittleGewinner() {
+        if (augen.getGegnerPunkte() < ZIEL_AUGEN || augen.getSpielerPunkte() < ZIEL_AUGEN) {
+            return Spieler.NIEMAND;
+        }
+
+        if (augen.getGegnerPunkte().equals(augen.getSpielerPunkte())) {
+            return Spieler.NIEMAND;
+        }
+
+        return augen.getGegnerPunkte() > augen.getSpielerPunkte() ? Spieler.GEGNER : Spieler.SPIELER;
+    }
+
+    /**
+     * Gib zurück den gewinner der Partie. Bis es Entschieden ist, kommt der Wert vom Spieler.NIEMAND zurück.
+     *
+     * @return Gewinner der Partie
+     * @see de.idigath.klammern.backend.model.Spieler
+     */
+    @Override
+    public Spieler getGewinner() {
+        return gewinner;
+    }
+
+
 }

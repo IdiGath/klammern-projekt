@@ -75,6 +75,18 @@ public class KlammernController {
         return mapAktuellePartie();
     }
 
+    /**
+     * Beginnt die bestehende Partie zum Neustart, wenn die notwendigen Herausforderungen erfüllt sind.
+     * Die Partie bestehende Partie muss einen Gewinner haben, um eine neue Partie starten zu können.
+     *
+     * @return neue Partie
+     */
+    @PostMapping(value = "/partie")
+    public PartieDto partieNeuBeginnen() {
+        partie.neuBeginnen();
+        return mapAktuellePartie();
+    }
+
     private PartieDto mapAktuellePartie() {
         final var runde = new RundeDto();
         runde.setBeginner(partie.getBeginner().getName());
@@ -82,7 +94,7 @@ public class KlammernController {
         runde.setSpielerKarten(partie.getSpielerKarten().stream().map(this::mapKarteToDto).toList());
         runde.setGegnerKarten(partie.getGegnerKarten().stream().map(this::mapKarteToDto).toList());
         var stand = mapStandToDto();
-        return new PartieDto(stand, runde, partie.isBeendet());
+        return new PartieDto(stand, runde, partie.isFertig(), partie.getGewinner().getName());
     }
 
     private KarteDto mapKarteToDto(Karte karte) {
@@ -99,7 +111,6 @@ public class KlammernController {
         for (Stand element : partie.getHistorie()) {
             stand.addMapZurHistorie(element.getStandAsMap());
         }
-
         return stand;
     }
 
