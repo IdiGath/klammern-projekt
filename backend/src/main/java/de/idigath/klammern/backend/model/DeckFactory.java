@@ -35,9 +35,13 @@ public class DeckFactory {
     private static SpielDeck getSpielDeck() {
         Set<Karte> karten = new LinkedHashSet<>();
         for (Farbe farbe : Farbe.values()) {
-            for (Wert wert : Wert.values()) {
-                Karte karte = new Karte(farbe, wert);
-                karten.add(karte);
+            if (farbe.isSpielbar()) {
+                for (Wert wert : Wert.values()) {
+                    if (wert.isSpielbar()) {
+                        Karte karte = new Karte(farbe, wert);
+                        karten.add(karte);
+                    }
+                }
             }
         }
         return new SpielDeck(karten);

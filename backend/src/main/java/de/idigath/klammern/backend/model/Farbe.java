@@ -8,16 +8,18 @@ import lombok.Getter;
  */
 @Getter
 public enum Farbe {
-    UNDEFINED("UNDEFINED"),
-    HERZ("HERZ"),
-    KARO("KARO"),
-    PIK("PIK"),
-    KREUZ("KREUZ");
+    UNDEFINED("UNDEFINED", false),
+    HERZ("HERZ", true),
+    KARO("KARO", true),
+    PIK("PIK", true),
+    KREUZ("KREUZ", true);
 
     private final String name;
+    private final boolean spielbar;
 
-    Farbe(String name) {
+    Farbe(String name, boolean spielbar) {
         this.name = name;
+        this.spielbar = spielbar;
     }
 
 
