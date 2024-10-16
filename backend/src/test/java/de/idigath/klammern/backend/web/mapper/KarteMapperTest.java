@@ -26,7 +26,7 @@ class KarteMapperTest {
 
     @Test
     void mapDtoToKarte_dameHerz_ok() {
-        KarteDto dameHerzDto = new KarteDto(Farbe.HERZ.getName(), Wert.ASS.getName());
+        KarteDto dameHerzDto = new KarteDto(Farbe.HERZ.getName(), Wert.DAME.getName());
 
         Karte dameHerz = mapDtoToKarte(dameHerzDto);
 
