@@ -1,13 +1,17 @@
 package de.idigath.klammern.backend.web.dto;
 
 
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
+
 import java.util.List;
 import java.util.Objects;
 
 /**
  * Das DTO repräsentiert einen gespielten Zug, welcher aus zwei Zugbeständen der beiden Spielern besteht.
  */
-
+@AllArgsConstructor
+@NoArgsConstructor
 public class ZugDto {
 
     private ZugbestandDto beginner;
