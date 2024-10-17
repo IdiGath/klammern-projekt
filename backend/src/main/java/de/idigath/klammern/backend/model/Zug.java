@@ -38,4 +38,12 @@ public class Zug {
         inhalt.get(spieler).add(karte);
     }
 
+    public List<Karte> getBeginnerKarten() {
+        return inhalt.get(beginner);
+    }
+
+    public List<Karte> getDeckerKarten() {
+        return inhalt.get(decker);
+    }
+
 }
