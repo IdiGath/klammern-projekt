@@ -63,7 +63,7 @@ public class StandDto {
     }
 
     private void validateSpieler(String spieler) {
-        if (this.spieler.equals(spieler) || gegner.equals(spieler)) {
+        if (!this.spieler.equals(spieler) && !gegner.equals(spieler)) {
             throw new IllegalStateException("Der Spieler ist in dem Stand-Objekt nicht berücksichtigt");
         }
     }
