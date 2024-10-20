@@ -5,6 +5,7 @@ import de.idigath.klammern.backend.model.Spieler;
 import de.idigath.klammern.backend.model.Stand;
 import de.idigath.klammern.backend.model.Zug;
 import de.idigath.klammern.backend.service.Partie;
+import lombok.EqualsAndHashCode;
 import org.springframework.stereotype.Service;
 
 import java.util.LinkedList;
@@ -17,6 +18,7 @@ import java.util.Random;
  * Verfügung gestellt, weil mehrere Partien nicht unterstützt werden müssen.
  */
 @Service
+@EqualsAndHashCode
 public class PartieImpl implements Partie {
     private static final int ZIEL_AUGEN = 51;
     private final Random random = new Random();
@@ -152,7 +154,7 @@ public class PartieImpl implements Partie {
     @Override
     public void neuBeginnen() {
         if (gewinner.equals(Spieler.NIEMAND)) {
-            throw new IllegalStateException("Die Partie ist noch nicht beendet um sie neu beginnen zu können.");
+            throw new IllegalStateException("Die Partie ist noch nicht beendet um sie neu beginnen zu können");
         }
         initPartie();
     }
