@@ -160,7 +160,8 @@ public class PartieImpl implements Partie {
     }
 
     /**
-     * Spielt der Zug für die aktuelle Runde.
+     * Spielt der Zug für die aktuelle Runde. Wenn nach dem Zug die Runde nicht mehr spielbar ist, wird sie beendet
+     * und geprüft, ob die Partie ggf. ihr Ende auch erreicht hat.
      *
      * @param zug Spielzug
      */
