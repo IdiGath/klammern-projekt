@@ -6,6 +6,9 @@ package de.idigath.klammern.backend.model;
  * Karte außerhalb des Spiels und der Decke, was in der Runde tätig ist. Nur mit Betracht des Wertes
  * und der jeweiligen Farbe können die übergeordnete Klassen die Karte in der Runde richtig
  * interpretieren.
+ *
+ * @param farbe Kartenfarbe
+ * @param wert  Kartenwert
  */
 public record Karte(Farbe farbe, Wert wert) {
 }
