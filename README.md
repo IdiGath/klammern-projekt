@@ -114,7 +114,7 @@ Der letzte Stich gibt zusätzliche 10 Punkte.
 1. jedem 3 Karten
 2. jedem 2 Karten
 3. 1 Karte aufdecken als Trumpfvorschlag
-4. Entscheidung ob jemand rein geht
+4. Entscheidung, ob jemand "reingeht"
 5. jedem 3 Karten
 6. ggf. eine andere Trumpffarbe auswählen Hinweis: offene Trumpf-Karte durch 7 der Farbe eintauschbar!
 
