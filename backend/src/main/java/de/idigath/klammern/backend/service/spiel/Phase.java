@@ -39,9 +39,9 @@ public interface Phase {
     Spieler getBeginner();
 
     /**
-     * Gibt die Trumpf-Karte zurück.
+     * Gibt die Trumpfkarte zurück.
      *
-     * @return
+     * @return Trumpfkarte
      */
     Karte getTrumpfKarte();
 
