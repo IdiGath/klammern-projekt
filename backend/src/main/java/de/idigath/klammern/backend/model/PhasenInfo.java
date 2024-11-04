@@ -12,5 +12,5 @@ import java.util.Map;
  * @param spielDeck Spieldeck der Runde
  * @param reihen    Karten von beiden Spielern
  */
-public record PhasenInfo(Spieler beginner, Stand stand, Deck spielDeck, Map<Spieler, Deck> reihen) {
+public record PhasenInfo(Spieler beginner, Stand stand, Deck spielDeck, Map<Spieler, Deck> reihen, Karte trumpfKarte) {
 }
