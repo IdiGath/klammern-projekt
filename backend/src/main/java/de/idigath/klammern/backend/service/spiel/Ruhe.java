@@ -13,9 +13,9 @@ import java.util.Objects;
  */
 public class Ruhe implements Phase {
     private final Stand stand;
-    private final Deck spielDeck;
     private final Map<Spieler, Deck> reihen;
     private final Spieler beginner;
+    private Deck spielDeck;
     private Karte trumpfKarte;
 
     /**
@@ -29,8 +29,6 @@ public class Ruhe implements Phase {
     Ruhe(Spieler beginner, Stand stand) {
         this.stand = stand;
         this.beginner = beginner;
-        this.spielDeck = DeckFactory.createDeck(DeckTyp.SPIELDECK);
-
         reihen = new EnumMap<>(Spieler.class);
         reihen.put(Spieler.SPIELER, DeckFactory.createDeck(DeckTyp.REIHE));
         reihen.put(Spieler.GEGNER, DeckFactory.createDeck(DeckTyp.REIHE));
