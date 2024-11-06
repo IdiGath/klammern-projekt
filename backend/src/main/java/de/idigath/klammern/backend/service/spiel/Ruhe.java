@@ -1,27 +1,21 @@
 package de.idigath.klammern.backend.service.spiel;
 
-import de.idigath.klammern.backend.model.*;
+import de.idigath.klammern.backend.model.PhasenInfo;
+import de.idigath.klammern.backend.model.Spieler;
+import de.idigath.klammern.backend.model.Stand;
+import de.idigath.klammern.backend.model.Zug;
 
-import java.util.EnumMap;
-import java.util.List;
-import java.util.Map;
 import java.util.Objects;
 
 /**
  * Die Ruhe-Phase ist ein nicht spielbarer Stand einer Runde. Entweder ist die Runde erst gestartet und soll in die
  * neue Phase wechseln, oder die Runde hat ihr Ende erreicht und soll von der Partie beendet werden.
  */
-public class Ruhe implements Phase {
-    private final Stand stand;
-    private final Map<Spieler, Deck> reihen;
-    private final Spieler beginner;
-    private Deck spielDeck;
-    private Karte trumpfKarte;
+public class Ruhe extends AbstractPhase implements Phase {
 
     /**
      * Dieser Konstruktor wird ausschließlich beim Beginn einer neuen Runde verwendet. Die Runde übergibt einen
-     * leeren Stand, sowie den ermittelten Beginner. Solcher Konstruktor existiert ausschließlich in der Ruhe-Phase,
-     * weil nur sie eine Runde eröffnen kann.
+     * leeren Stand, sowie den ermittelten Beginner.
      *
      * @param beginner ermittelter Beginner der Runde
      * @param stand    neuer Spielstand
@@ -29,9 +23,6 @@ public class Ruhe implements Phase {
     Ruhe(Spieler beginner, Stand stand) {
         this.stand = stand;
         this.beginner = beginner;
-        reihen = new EnumMap<>(Spieler.class);
-        reihen.put(Spieler.SPIELER, DeckFactory.createDeck(DeckTyp.REIHE));
-        reihen.put(Spieler.GEGNER, DeckFactory.createDeck(DeckTyp.REIHE));
     }
 
     /**
@@ -62,31 +53,6 @@ public class Ruhe implements Phase {
      */
     @Override
     public Phase getNext() {
-        var phasenInfo = new PhasenInfo(beginner, stand, spielDeck, reihen, trumpfKarte);
-        return new Wahl(phasenInfo);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public Spieler getBeginner() {
-        return beginner;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public Karte getTrumpfKarte() {
-        return trumpfKarte;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public List<Karte> getKarten(Spieler spieler) {
-        return reihen.get(spieler).getSpielkartenList();
+        return new Wahl(beginner, stand);
     }
 }
