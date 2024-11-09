@@ -3,10 +3,7 @@ package de.idigath.klammern.backend.model;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.ArrayList;
-import java.util.EnumMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class Zug {
 
@@ -45,5 +42,18 @@ public class Zug {
     public List<Karte> getDeckerKarten() {
         return inhalt.get(decker);
     }
+
+    /**
+     * Gibt die Information zurück, ob der Zug vollständig ist. In dem geprüft wird, ob die Zug-Inhalte nicht null sind.
+     *
+     * @return true, wenn keine nulls im Zug dabei sind
+     */
+    public boolean isVollstaendig() {
+        return Objects.nonNull(beginner)
+                && Objects.nonNull(getBeginnerKarten())
+                && Objects.nonNull(beginner)
+                && Objects.nonNull(getDeckerKarten());
+    }
+
 
 }
