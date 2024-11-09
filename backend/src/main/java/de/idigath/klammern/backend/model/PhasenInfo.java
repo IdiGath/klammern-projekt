@@ -7,10 +7,18 @@ import java.util.Map;
  * Informationen über den jeweiligen Beginner, den Stand in der Runde, das benutzte Spieldeck, sowie die Karten der
  * beiden Spielern.
  *
- * @param beginner  Beginner des Zuges
- * @param stand     Stand in der Runde
- * @param spielDeck Spieldeck der Runde
- * @param reihen    Karten von beiden Spielern
+ * @param beginner    Beginner des Zuges
+ * @param stand       Stand in der Runde
+ * @param spielDeck   Spieldeck der Runde
+ * @param reihen      Karten von beiden Spielern
+ * @param trumpfKarte Trumpfkarte
+ * @param nativeTrump true wenn Trumpf ausgegeben und nicht ausgewählt ist
  */
-public record PhasenInfo(Spieler beginner, Stand stand, Deck spielDeck, Map<Spieler, Deck> reihen, Karte trumpfKarte) {
+public record PhasenInfo(Spieler beginner,
+                         Stand stand,
+                         Deck spielDeck,
+                         Map<Spieler, Deck> reihen,
+                         Karte trumpfKarte,
+                         boolean nativeTrump) {
+
 }
