@@ -1,13 +1,11 @@
 package de.idigath.klammern.backend.service.spiel;
 
 
-import de.idigath.klammern.backend.model.Deck;
-import de.idigath.klammern.backend.model.Karte;
-import de.idigath.klammern.backend.model.Spieler;
-import de.idigath.klammern.backend.model.Stand;
+import de.idigath.klammern.backend.model.*;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 /**
  * Abstrakte Klassen für alle Phasen. Jede Phase hat die gleichen Kernparameter, sowie die Grundfunktionalität für
@@ -19,6 +17,17 @@ public abstract class AbstractPhase implements Phase {
     Map<Spieler, Deck> reihen;
     Deck spielDeck;
     Karte trumpfKarte;
+
+    void validateZug(Zug zug) {
+        if (Objects.isNull(zug) || !zug.isVollstaendig()) {
+            throw new IllegalArgumentException("Beginner-Zug muss gefüllt sein");
+        }
+
+        if (!beginner.equals(zug.getBeginner())) {
+            throw new IllegalArgumentException("Beginner ist der andere Spieler");
+        }
+    }
+
 
     /**
      * {@inheritDoc}
