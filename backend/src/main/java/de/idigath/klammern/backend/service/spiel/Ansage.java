@@ -1,8 +1,11 @@
 package de.idigath.klammern.backend.service.spiel;
 
 import de.idigath.klammern.backend.model.*;
+import de.idigath.klammern.backend.service.vergleich.KartenComparator;
+import de.idigath.klammern.backend.service.vergleich.VergleichsTyp;
 
 import java.util.EnumMap;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -53,16 +56,85 @@ public class Ansage extends AbstractPhase implements Phase {
                 reihe.addSpielkarte(karte);
                 kombinationen.put(karte.farbe(), reihe);
             }
-
-
-            isSonderbehandlungNotwendig();
-
         }
 
-        Map<Kombination, Reihe> result = new EnumMap<>(Kombination.class);
+        Map<Karte, Kombination> result = definiereKombinationen(kombinationen);
     }
 
-    private void isSonderbehandlungNotwendig() {
+    private Map<Karte, Kombination> definiereKombinationen(Map<Farbe, Deck> kombinationen) {
+        Map<Karte, Kombination> result = new HashMap<>();
+
+        List<Deck> kartenDecks = kombinationen.keySet().stream().map(kombinationen::get).toList();
+
+        for (Deck deck : kartenDecks) {
+            validateEinzelkarte(deck);
+            validateZuVieleKarten(deck);
+            if (isKomplexeKombination(deck)) {
+
+            } else {
+                setzeEintrag(result, deck);
+            }
+
+        }
+        return result;
+    }
+
+    private void setzeEintrag(Map<Karte, Kombination> result, Deck deck) {
+        var kartenList = deck.getSpielkartenList();
+        Farbe farbe = kartenList.getFirst().farbe();
+        List<Wert> kartenWertList =
+                kartenList.stream()
+                        .map(Karte::wert)
+                        .toList()
+                        .stream()
+                        .sorted(KartenComparator.createKartenWertComparator(VergleichsTyp.REIHENFOLGE))
+                        .toList();
+        Karte kombinationHoehe = new Karte(farbe, kartenWertList.getLast());
+
+        if (isFuenfziger(kartenWertList)) {
+            result.put(kombinationHoehe, Kombination.FUENFZIGER);
+        } else if (isTerz(kartenWertList)) {
+            result.put(kombinationHoehe, Kombination.TERZ);
+        } else if (isBelle(kartenWertList, farbe)) {
+            result.put(kombinationHoehe, Kombination.BELLE);
+        } else {
+            throw new IllegalArgumentException("Übergebene Karten stellen keine gültige Kombination dar!");
+        }
+
+    }
+
+    private boolean isBelle(List<Wert> kartenWertList, Farbe farbe) {
+        return kartenWertList.size() == 2
+                && kartenWertList.getFirst().equals(Wert.DAME)
+                && kartenWertList.getLast().equals(Wert.KOENIG)
+                && trumpfKarte.farbe().equals(farbe);
+    }
+
+    private boolean isTerz(List<Wert> kartenWertList) {
+
+        //ToDo: Implementieren
+        return kartenWertList.size() == 3;
+    }
+
+    private boolean isFuenfziger(List<Wert> kartenWertList) {
+        //ToDo: Implementieren
+        return false;
+    }
+
+    private void validateZuVieleKarten(Deck deck) {
+        if (deck.countSpielkarten() > 8) {
+            throw new IllegalArgumentException("Ein Spieler darf nicht mehr als 8 Karten haben!");
+        }
+    }
+
+    private boolean isKomplexeKombination(Deck deck) {
+        return deck.countSpielkarten() > 4 && deck.countSpielkarten() < 9;
+    }
+
+    private void validateEinzelkarte(Deck deck) {
+        if (deck.countSpielkarten() == 1) {
+            throw new IllegalArgumentException("Einzelkarte ist keine Kombination!");
+        }
     }
 
     private void verarbeiteAnsage() {
