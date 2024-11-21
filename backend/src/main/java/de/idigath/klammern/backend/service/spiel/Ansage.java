@@ -100,7 +100,6 @@ public class Ansage extends AbstractPhase implements Phase {
         } else {
             throw new IllegalArgumentException("Übergebene Karten stellen keine gültige Kombination dar!");
         }
-
     }
 
     private boolean isBelle(List<Wert> kartenWertList, Farbe farbe) {
@@ -111,14 +110,25 @@ public class Ansage extends AbstractPhase implements Phase {
     }
 
     private boolean isTerz(List<Wert> kartenWertList) {
+        return kartenWertList.size() == 3 && isKartenReihenfolge(kartenWertList);
+    }
 
-        //ToDo: Implementieren
-        return kartenWertList.size() == 3;
+    private boolean isKartenReihenfolge(List<Wert> kartenWertList) {
+        boolean result = false;
+        int untergeordneteReihenfolge = kartenWertList.getFirst().getReihenfolge() - 1;
+        for (Wert kartenwert : kartenWertList) {
+            result = true;
+            int aktuelleReihenfolge = kartenwert.getReihenfolge();
+            if (aktuelleReihenfolge - untergeordneteReihenfolge != 1) {
+                result = false;
+                break;
+            }
+        }
+        return result;
     }
 
     private boolean isFuenfziger(List<Wert> kartenWertList) {
-        //ToDo: Implementieren
-        return false;
+        return kartenWertList.size() == 4 && isKartenReihenfolge(kartenWertList);
     }
 
     private void validateZuVieleKarten(Deck deck) {
