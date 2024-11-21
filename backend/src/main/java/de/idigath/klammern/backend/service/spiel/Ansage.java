@@ -31,6 +31,8 @@ public class Ansage extends AbstractPhase implements Phase {
         validateZug(zug);
         if (isTrumpfkarteWechsel(zug)) {
             trumpfWechseln(zug);
+        } else if (isBelle(zug)) {
+            stand.addPunkte(zug.getBeginner(), Kombination.BELLE.getPunkte());
         } else {
             ermittleKombinationen(zug);
             verarbeiteAnsage();
@@ -42,6 +44,13 @@ public class Ansage extends AbstractPhase implements Phase {
         var reihe = reihen.get(zug.getBeginner());
         reihe.addSpielkarte(trumpfKarte);
         trumpfKarte = zug.getBeginnerKarten().getFirst();
+    }
+
+    private boolean isBelle(Zug zug) {
+        return zug.getBeginnerKarten().size() == 2
+                && zug.getDeckerKarten().isEmpty()
+                && zug.getBeginnerKarten().getFirst().equals(new Karte(trumpfKarte.farbe(), Wert.DAME))
+                && zug.getBeginnerKarten().getFirst().equals(new Karte(trumpfKarte.farbe(), Wert.KOENIG));
     }
 
     private void ermittleKombinationen(Zug zug) {
@@ -70,7 +79,7 @@ public class Ansage extends AbstractPhase implements Phase {
             validateEinzelkarte(deck);
             validateZuVieleKarten(deck);
             if (isKomplexeKombination(deck)) {
-
+                setzeZusammengesetztenEintrag(result, deck);
             } else {
                 setzeEintrag(result, deck);
             }
@@ -79,9 +88,8 @@ public class Ansage extends AbstractPhase implements Phase {
         return result;
     }
 
-    private void setzeEintrag(Map<Karte, Kombination> result, Deck deck) {
+    private void setzeZusammengesetztenEintrag(Map<Karte, Kombination> result, Deck deck) {
         var kartenList = deck.getSpielkartenList();
-        Farbe farbe = kartenList.getFirst().farbe();
         List<Wert> kartenWertList =
                 kartenList.stream()
                         .map(Karte::wert)
@@ -89,24 +97,31 @@ public class Ansage extends AbstractPhase implements Phase {
                         .stream()
                         .sorted(KartenComparator.createKartenWertComparator(VergleichsTyp.REIHENFOLGE))
                         .toList();
-        Karte kombinationHoehe = new Karte(farbe, kartenWertList.getLast());
+
+        //ToDO: Implementieren
+
+
+    }
+
+    private void setzeEintrag(Map<Karte, Kombination> result, Deck deck) {
+        var kartenList = deck.getSpielkartenList();
+        List<Wert> kartenWertList =
+                kartenList.stream()
+                        .map(Karte::wert)
+                        .toList()
+                        .stream()
+                        .sorted(KartenComparator.createKartenWertComparator(VergleichsTyp.REIHENFOLGE))
+                        .toList();
+        Farbe farbe = kartenList.getFirst().farbe();
+        Karte kombinationsHoehe = new Karte(farbe, kartenWertList.getLast());
 
         if (isFuenfziger(kartenWertList)) {
-            result.put(kombinationHoehe, Kombination.FUENFZIGER);
+            result.put(kombinationsHoehe, Kombination.FUENFZIGER);
         } else if (isTerz(kartenWertList)) {
-            result.put(kombinationHoehe, Kombination.TERZ);
-        } else if (isBelle(kartenWertList, farbe)) {
-            result.put(kombinationHoehe, Kombination.BELLE);
+            result.put(kombinationsHoehe, Kombination.TERZ);
         } else {
             throw new IllegalArgumentException("Übergebene Karten stellen keine gültige Kombination dar!");
         }
-    }
-
-    private boolean isBelle(List<Wert> kartenWertList, Farbe farbe) {
-        return kartenWertList.size() == 2
-                && kartenWertList.getFirst().equals(Wert.DAME)
-                && kartenWertList.getLast().equals(Wert.KOENIG)
-                && trumpfKarte.farbe().equals(farbe);
     }
 
     private boolean isTerz(List<Wert> kartenWertList) {

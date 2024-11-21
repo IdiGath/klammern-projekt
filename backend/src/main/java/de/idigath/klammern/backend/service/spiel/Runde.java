@@ -59,7 +59,7 @@ public class Runde {
      * @return Punktestand des Spielers
      */
     public Integer getSpielerPunkte() {
-        return punkte.getSpielerPunkte();
+        return punkte.getPunkte(Spieler.SPIELER);
     }
 
     /**
@@ -68,7 +68,7 @@ public class Runde {
      * @return Punktestand des Gegners
      */
     public Integer getGegnerPunkte() {
-        return punkte.getGegnerPunkte();
+        return punkte.getPunkte(Spieler.GEGNER);
     }
 
     /**

@@ -15,10 +15,10 @@ class StandTest {
         Integer ersterSummand = 7;
         Integer zweiterSummand = 6;
 
-        stand.addSpielerPunkte(ersterSummand);
-        stand.addSpielerPunkte(zweiterSummand);
+        stand.addPunkte(Spieler.SPIELER, ersterSummand);
+        stand.addPunkte(Spieler.SPIELER, zweiterSummand);
 
-        assertThat(erwartetesErgebnis).isEqualTo(stand.getSpielerPunkte());
+        assertThat(erwartetesErgebnis).isEqualTo(stand.getPunkte(Spieler.SPIELER));
     }
 
     @Test
@@ -28,17 +28,17 @@ class StandTest {
         Integer ersterSummand = 1;
         Integer zweiterSummand = 98;
 
-        stand.addGegnerPunkte(ersterSummand);
-        stand.addGegnerPunkte(zweiterSummand);
+        stand.addPunkte(Spieler.GEGNER, ersterSummand);
+        stand.addPunkte(Spieler.GEGNER, zweiterSummand);
 
-        assertThat(erwartetesErgebnis).isEqualTo(stand.getGegnerPunkte());
+        assertThat(erwartetesErgebnis).isEqualTo(stand.getPunkte(Spieler.GEGNER));
     }
 
     @Test
     void copyStand() {
         Stand stand = new Stand();
-        stand.addSpielerPunkte(99);
-        stand.addGegnerPunkte(11);
+        stand.addPunkte(Spieler.SPIELER, 99);
+        stand.addPunkte(Spieler.GEGNER, 11);
 
         Stand copyStand = new Stand(stand);
 

@@ -30,8 +30,8 @@ public class Stand {
      * @param stand Stand zu kopieren
      */
     public Stand(Stand stand) {
-        standMap.put(Spieler.SPIELER, stand.getSpielerPunkte());
-        standMap.put(Spieler.GEGNER, stand.getGegnerPunkte());
+        standMap.put(Spieler.SPIELER, stand.getPunkte(Spieler.SPIELER));
+        standMap.put(Spieler.GEGNER, stand.getPunkte(Spieler.GEGNER));
     }
 
     /**
@@ -39,17 +39,8 @@ public class Stand {
      *
      * @return Punkte des Spielers
      */
-    public Integer getSpielerPunkte() {
-        return standMap.get(Spieler.SPIELER);
-    }
-
-    /**
-     * Liefert die Punkte vom Gegner zurück.
-     *
-     * @return Punkte des Gegners
-     */
-    public Integer getGegnerPunkte() {
-        return standMap.get(Spieler.GEGNER);
+    public Integer getPunkte(Spieler spieler) {
+        return standMap.get(spieler);
     }
 
     /**
@@ -57,20 +48,7 @@ public class Stand {
      *
      * @param punkte neue Punkte
      */
-    public void addSpielerPunkte(Integer punkte) {
-        addPunkte(Spieler.SPIELER, punkte);
-    }
-
-    /**
-     * Fügt dem Gegner neue Punkte hinzu.
-     *
-     * @param punkte neue Punkte
-     */
-    public void addGegnerPunkte(Integer punkte) {
-        addPunkte(Spieler.GEGNER, punkte);
-    }
-
-    private void addPunkte(Spieler spieler, Integer punkte) {
+    public void addPunkte(Spieler spieler, Integer punkte) {
         Integer altePunkte = standMap.get(spieler);
         Integer newPunkte = punkte + altePunkte;
         standMap.put(spieler, newPunkte);

@@ -52,7 +52,7 @@ public class PartieImpl implements Partie {
      */
     @Override
     public Integer getSpielerAugen() {
-        return augen.getSpielerPunkte();
+        return augen.getPunkte(Spieler.SPIELER);
     }
 
     /**
@@ -62,7 +62,7 @@ public class PartieImpl implements Partie {
      */
     @Override
     public Integer getGegnerAugen() {
-        return augen.getGegnerPunkte();
+        return augen.getPunkte(Spieler.GEGNER);
     }
 
     /**
@@ -193,11 +193,11 @@ public class PartieImpl implements Partie {
 
     private void aktualisiereStand() {
         Stand stand = new Stand();
-        stand.addGegnerPunkte(runde.getGegnerPunkte());
-        stand.addSpielerPunkte(runde.getSpielerPunkte());
+        stand.addPunkte(Spieler.GEGNER, runde.getGegnerPunkte());
+        stand.addPunkte(Spieler.SPIELER, runde.getSpielerPunkte());
         historie.add(stand);
-        augen.addSpielerPunkte(convertPunkteInAugen(runde.getSpielerPunkte()));
-        augen.addGegnerPunkte(convertPunkteInAugen(runde.getGegnerPunkte()));
+        augen.addPunkte(Spieler.SPIELER, convertPunkteInAugen(runde.getSpielerPunkte()));
+        augen.addPunkte(Spieler.GEGNER, convertPunkteInAugen(runde.getGegnerPunkte()));
     }
 
     private int convertPunkteInAugen(int punkte) {
@@ -211,15 +211,15 @@ public class PartieImpl implements Partie {
     }
 
     private Spieler ermittleGewinner() {
-        if (augen.getGegnerPunkte() < ZIEL_AUGEN || augen.getSpielerPunkte() < ZIEL_AUGEN) {
+        if (augen.getPunkte(Spieler.GEGNER) < ZIEL_AUGEN || augen.getPunkte(Spieler.SPIELER) < ZIEL_AUGEN) {
             return Spieler.NIEMAND;
         }
 
-        if (augen.getGegnerPunkte().equals(augen.getSpielerPunkte())) {
+        if (augen.getPunkte(Spieler.GEGNER).equals(augen.getPunkte(Spieler.SPIELER))) {
             return Spieler.NIEMAND;
         }
 
-        return augen.getGegnerPunkte() > augen.getSpielerPunkte() ? Spieler.GEGNER : Spieler.SPIELER;
+        return augen.getPunkte(Spieler.GEGNER) > augen.getPunkte(Spieler.SPIELER) ? Spieler.GEGNER : Spieler.SPIELER;
     }
 
     /**
