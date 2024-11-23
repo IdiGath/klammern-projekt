@@ -4,10 +4,7 @@ import de.idigath.klammern.backend.model.*;
 import de.idigath.klammern.backend.service.vergleich.KartenComparator;
 import de.idigath.klammern.backend.service.vergleich.VergleichsTyp;
 
-import java.util.EnumMap;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import static de.idigath.klammern.backend.model.DeckTyp.REIHE;
 
@@ -79,7 +76,7 @@ public class Ansage extends AbstractPhase implements Phase {
             validateEinzelkarte(deck);
             validateZuVieleKarten(deck);
             if (isKomplexeKombination(deck)) {
-                setzeZusammengesetztenEintrag(result, deck);
+                setzeKomplexenEintrag(result, deck);
             } else {
                 setzeEintrag(result, deck);
             }
@@ -88,8 +85,12 @@ public class Ansage extends AbstractPhase implements Phase {
         return result;
     }
 
-    private void setzeZusammengesetztenEintrag(Map<Karte, Kombination> result, Deck deck) {
+    private void setzeKomplexenEintrag(Map<Karte, Kombination> result, Deck deck) {
         var kartenList = deck.getSpielkartenList();
+
+        //ToDo: Zuerst karten je Farbe sortieren
+
+
         List<Wert> kartenWertList =
                 kartenList.stream()
                         .map(Karte::wert)
@@ -98,7 +99,38 @@ public class Ansage extends AbstractPhase implements Phase {
                         .sorted(KartenComparator.createKartenWertComparator(VergleichsTyp.REIHENFOLGE))
                         .toList();
 
-        //ToDO: Implementieren
+        Map<List<Wert>> aufgeteilteKombinationen = new LinkedList<>();
+
+
+        Integer untergeordneteReihenfolge = null;
+        List<Wert> kartenkombination = null;
+        for (Wert kartenwert : kartenWertList) {
+
+            if (Objects.isNull(kartenkombination)) {
+                kartenkombination = new LinkedList<>();
+            }
+
+            if (Objects.isNull(untergeordneteReihenfolge)) {
+                untergeordneteReihenfolge = kartenWertList.getFirst().getReihenfolge() - 1;
+            }
+            int aktuelleReihenfolge = kartenwert.getReihenfolge();
+
+
+            if (aktuelleReihenfolge - untergeordneteReihenfolge != 1) {
+                kartenkombination.add(kartenwert);
+                //ToDo: Das ist falsch
+                aufgeteilteKombinationen.add(kartenkombination);
+            } else {
+                kartenkombination = new LinkedList<>();
+                kartenkombination.add(kartenwert);
+
+            }
+            untergeordneteReihenfolge = aktuelleReihenfolge;
+        }
+
+        for (List<Wert> kombinationen : aufgeteilteKombinationen) {
+            setzeEintrag(result, kombinationen);
+        }
 
 
     }
