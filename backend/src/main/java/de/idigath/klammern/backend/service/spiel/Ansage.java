@@ -106,48 +106,59 @@ public class Ansage extends AbstractPhase implements Phase {
   }
 
   private void addKomplexenEintrag(Map<Karte, Kombination> result, Deck deck) {
-    var kartenList = deck.getSpielkartenList();
-    // ToDo: Kartenwerte je Farbe sortieren
-    Map<Farbe, List<Wert>> farbenMap = new EnumMap<>(Farbe.class);
-    farbenMap.put(Farbe.HERZ, new LinkedList<>());
-    farbenMap.put(Farbe.KARO, new LinkedList<>());
-    farbenMap.put(Farbe.KREUZ, new LinkedList<>());
-    farbenMap.put(Farbe.PIK, new LinkedList<>());
-    kartenList.forEach(karte -> farbenMap.get(karte.farbe()).add(karte.wert()));
-    // ToDo: Kartenwerte in jeder Farbe sortieren
-    var comparator = KartenComparator.createKartenWertComparator(VergleichsTyp.REIHENFOLGE);
-    farbenMap.forEach((farbe, wertList) -> wertList.sort(comparator));
-    // ToDo: Kartenwerte jeder Farbe auf Kombinationen aufteilen
-    for (var entry : farbenMap.entrySet()) {
-      List<List<Wert>> aufgeteilteKombinationen = new LinkedList<>();
-      List<Wert> kartenWertList = entry.getValue();
-      // ToDo: Kombination wie einfache Kombination verarbeiten
-      Integer untergeordneteReihenfolge = null;
-      for (Wert kartenwert : kartenWertList) {
-        if (Objects.isNull(aufgeteilteKombinationen.getLast())) {
-          aufgeteilteKombinationen.add(new LinkedList<>());
-        }
-
-        if (Objects.isNull(untergeordneteReihenfolge)) {
-          untergeordneteReihenfolge = kartenWertList.getFirst().getReihenfolge() - 1;
-        }
-        int aktuelleReihenfolge = kartenwert.getReihenfolge();
-
-        if (aktuelleReihenfolge - untergeordneteReihenfolge != 1) {
-          aufgeteilteKombinationen.add(new LinkedList<>());
-        }
-        aufgeteilteKombinationen.getLast().add(kartenwert);
-        untergeordneteReihenfolge = aktuelleReihenfolge;
-      }
-
-      for (List<Wert> einzelnKombination : aufgeteilteKombinationen) {
-        Deck reihe = DeckFactory.createDeck(REIHE);
-        for (var wert : einzelnKombination) {
-          reihe.addSpielkarte(new Karte(entry.getKey(), wert));
-        }
+    Map<Farbe, List<Wert>> sortierteKarten = sortiereKartenAsMap(deck.getSpielkartenList());
+    for (var entry : sortierteKarten.entrySet()) {
+      List<List<Wert>> zerlegteKombinationen = zerlegeKombinationen(entry);
+      for (List<Wert> einzelnKombination : zerlegteKombinationen) {
+        Deck reihe = mapToDeck(entry.getKey(), einzelnKombination);
         setzeEintrag(result, reihe);
       }
     }
+  }
+
+  private List<List<Wert>> zerlegeKombinationen(Map.Entry<Farbe, List<Wert>> entry) {
+    List<List<Wert>> zerlegteKombinationen = new LinkedList<>();
+    List<Wert> kartenWertList = entry.getValue();
+    Integer untergeordneteReihenfolge = null;
+    for (Wert kartenwert : kartenWertList) {
+      if (Objects.isNull(zerlegteKombinationen.getLast())) {
+        zerlegteKombinationen.add(new LinkedList<>());
+      }
+
+      if (Objects.isNull(untergeordneteReihenfolge)) {
+        untergeordneteReihenfolge = kartenWertList.getFirst().getReihenfolge() - 1;
+      }
+      int aktuelleReihenfolge = kartenwert.getReihenfolge();
+
+      if (aktuelleReihenfolge - untergeordneteReihenfolge != 1) {
+        zerlegteKombinationen.add(new LinkedList<>());
+      }
+      zerlegteKombinationen.getLast().add(kartenwert);
+      untergeordneteReihenfolge = aktuelleReihenfolge;
+    }
+    return zerlegteKombinationen;
+  }
+
+  private Map<Farbe, List<Wert>> sortiereKartenAsMap(List<Karte> kartenList) {
+    Map<Farbe, List<Wert>> farbenWertMap = new EnumMap<>(Farbe.class);
+    farbenWertMap.put(Farbe.HERZ, new LinkedList<>());
+    farbenWertMap.put(Farbe.KARO, new LinkedList<>());
+    farbenWertMap.put(Farbe.KREUZ, new LinkedList<>());
+    farbenWertMap.put(Farbe.PIK, new LinkedList<>());
+    kartenList.forEach(karte -> farbenWertMap.get(karte.farbe()).add(karte.wert()));
+
+    var comparator = KartenComparator.createKartenWertComparator(VergleichsTyp.REIHENFOLGE);
+    farbenWertMap.forEach((farbe, wertList) -> wertList.sort(comparator));
+
+    return farbenWertMap;
+  }
+
+  private Deck mapToDeck(Farbe farbe, List<Wert> einzelnKombination) {
+    Deck reihe = DeckFactory.createDeck(REIHE);
+    for (var wert : einzelnKombination) {
+      reihe.addSpielkarte(new Karte(farbe, wert));
+    }
+    return reihe;
   }
 
   private void setzeEintrag(Map<Karte, Kombination> result, Deck deck) {
@@ -192,13 +203,18 @@ public class Ansage extends AbstractPhase implements Phase {
   }
 
   private void validateZuVieleKarten(Deck deck) {
-    if (deck.countSpielkarten() > 8) {
+    if (deck.countSpielkarten()
+        > Kombination.FUENFZIGER.getKartenAnzahl() + Kombination.FUENFZIGER.getKartenAnzahl()) {
       throw new IllegalArgumentException("Ein Spieler darf nicht mehr als 8 Karten haben!");
     }
   }
 
   private boolean isKomplexeKombination(Deck deck) {
-    return deck.countSpielkarten() > 4 && deck.countSpielkarten() < 9;
+    return deck.countSpielkarten() > Kombination.FUENFZIGER.getKartenAnzahl()
+        && deck.countSpielkarten()
+            < Kombination.FUENFZIGER.getKartenAnzahl()
+                + Kombination.FUENFZIGER.getKartenAnzahl()
+                + 1;
   }
 
   private void validateEinzelkarte(Deck deck) {
