@@ -9,15 +9,16 @@ import lombok.Getter;
  */
 @Getter
 public enum Kombination {
-    BELLE(20, 2),
-    TERZ(20, 3),
-    FUENFZIGER(50, 4);
+  BELLE(20, 2),
+  TERZ(20, 3),
+  FUENFZIGER(50, 4);
 
-    private final int punkte;
-    private final int kartenAnzahl;
+  private final int punkte;
 
-    Kombination(int punkte, int kartenAnzahl) {
-        this.punkte = punkte;
-        this.kartenAnzahl = kartenAnzahl;
-    }
+  private final int kartenAnzahl;
+
+  Kombination(final int punkte, final int kartenAnzahl) {
+    this.punkte = punkte;
+    this.kartenAnzahl = kartenAnzahl;
+  }
 }

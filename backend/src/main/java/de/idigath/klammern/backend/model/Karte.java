@@ -1,6 +1,5 @@
 package de.idigath.klammern.backend.model;
 
-
 /**
  * Das Record für die Spielkarte in der Runde. Diese Klasse ist die Brücke zwischen Wertigkeit der
  * Karte außerhalb des Spiels und der Decke, was in der Runde tätig ist. Nur mit Betracht des Wertes
@@ -8,7 +7,6 @@ package de.idigath.klammern.backend.model;
  * interpretieren.
  *
  * @param farbe Kartenfarbe
- * @param wert  Kartenwert
+ * @param wert Kartenwert
  */
-public record Karte(Farbe farbe, Wert wert) {
-}
+public record Karte(Farbe farbe, Wert wert) {}

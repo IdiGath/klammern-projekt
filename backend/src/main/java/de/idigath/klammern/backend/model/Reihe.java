@@ -9,12 +9,17 @@ import java.util.Set;
  * @see Deck
  */
 public class Reihe extends Deck {
-    protected Reihe(Set<Karte> karten) {
-        super(karten);
-    }
+  /**
+   * Protected-Konstruktor für die Instanziierung von Decks mithilfe von einer Factory.
+   *
+   * @param karten Karten als Set
+   */
+  protected Reihe(Set<Karte> karten) {
+    super(karten);
+  }
 
-    @Override
-    public void addSpielkarte(Karte spielkarte) {
-        karten.add(spielkarte);
-    }
+  @Override
+  public void addSpielkarte(Karte spielkarte) {
+    karten.add(spielkarte);
+  }
 }

@@ -1,57 +1,50 @@
 package de.idigath.klammern.backend.service.spiel;
 
-
-import de.idigath.klammern.backend.model.*;
-
+import de.idigath.klammern.backend.model.Deck;
+import de.idigath.klammern.backend.model.Karte;
+import de.idigath.klammern.backend.model.Spieler;
+import de.idigath.klammern.backend.model.Stand;
+import de.idigath.klammern.backend.model.Zug;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
 /**
- * Abstrakte Klassen für alle Phasen. Jede Phase hat die gleichen Kernparameter, sowie die Grundfunktionalität für
- * die Auskunft.
+ * Abstrakte Klassen für alle Phasen. Jede Phase hat die gleichen Kernparameter, sowie die
+ * Grundfunktionalität für die Auskunft.
  */
 public abstract class AbstractPhase implements Phase {
-    Stand stand;
-    Spieler beginner;
-    Map<Spieler, Deck> reihen;
-    Deck spielDeck;
-    Karte trumpfKarte;
+  Stand stand;
+  Spieler beginner;
+  Map<Spieler, Deck> reihen;
+  Deck spielDeck;
+  Karte trumpfKarte;
 
-    void validateZug(Zug zug) {
-        if (Objects.isNull(zug) || !zug.isVollstaendig()) {
-            throw new IllegalArgumentException("Beginner-Zug muss gefüllt sein");
-        }
-
-        if (!beginner.equals(zug.getBeginner())) {
-            throw new IllegalArgumentException("Beginner ist der andere Spieler");
-        }
+  void validateZug(Zug zug) {
+    if (Objects.isNull(zug) || !zug.isVollstaendig()) {
+      throw new IllegalArgumentException("Beginner-Zug muss gefüllt sein");
     }
 
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public Spieler getBeginner() {
-        return beginner;
+    if (!beginner.equals(zug.getBeginner())) {
+      throw new IllegalArgumentException("Beginner ist der andere Spieler");
     }
+  }
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public Karte getTrumpfKarte() {
-        return trumpfKarte;
-    }
+  /** {@inheritDoc} */
+  @Override
+  public Spieler getBeginner() {
+    return beginner;
+  }
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public List<Karte> getKarten(Spieler spieler) {
-        return reihen.get(spieler).getSpielkartenList();
-    }
+  /** {@inheritDoc} */
+  @Override
+  public Karte getTrumpfKarte() {
+    return trumpfKarte;
+  }
 
-
+  /** {@inheritDoc} */
+  @Override
+  public List<Karte> getKarten(Spieler spieler) {
+    return reihen.get(spieler).getSpielkartenList();
+  }
 }

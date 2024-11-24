@@ -9,14 +9,18 @@ import java.util.Set;
  * @see Deck
  */
 public class SpielDeck extends Deck {
+  /**
+   * Protected-Konstruktor für die Instanziierung von Decks mithilfe von einer Factory.
+   *
+   * @param karten Karten als Set
+   */
+  protected SpielDeck(Set<Karte> karten) {
+    super(karten);
+  }
 
-    protected SpielDeck(Set<Karte> karten) {
-        super(karten);
-    }
-
-    @Override
-    public void addSpielkarte(Karte karte) {
-        throw new IllegalStateException(
-                "In ein SpielDeck können keine weitere Karten hinzugefügt werden");
-    }
+  @Override
+  public void addSpielkarte(Karte karte) {
+    throw new IllegalStateException(
+        "In ein SpielDeck können keine weitere Karten hinzugefügt werden");
+  }
 }
