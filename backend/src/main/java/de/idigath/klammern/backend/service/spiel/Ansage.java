@@ -59,20 +59,71 @@ public class Ansage extends AbstractPhase implements Phase {
   }
 
   private void verarbeiteAnsage(
-      final Spieler beginner,
-      final Map<Karte, Kombination> beginnerKombi,
-      final Map<Karte, Kombination> deckerKombi) {
+      Spieler beginner,
+      Map<Karte, Kombination> beginnerKombi,
+      Map<Karte, Kombination> deckerKombi) {
     var beginnerHoesteKombination = ermittleHoechsteKombination(beginnerKombi);
     var deckerHoesteKombination = ermittleHoechsteKombination(deckerKombi);
 
-    // ToDo: Ansagenlogik verarbeiten
-    /*  Die Reihenfolge ist also: 2×50er>50er>2x Terz>Terz<br>
-            Wenn ein Spieler einen Terz bis Dame und ein anderer einen bis König, gewinnt der Spieler mit dem Terz bis
-            zum König.
-    <br>
-                    Wenn zwei Spieler einen gleichwertigen Terz haben, also zum Beispiel beide einen Terz bis Dame(10,
-                    Bube, Dame), gewinnt
-            die Trumpffarbe bzw. die Erstmeldung.<br>*/
+    if (Objects.isNull(beginnerHoesteKombination) && Objects.isNull(deckerHoesteKombination)) {
+      return;
+    }
+
+    if (Objects.isNull(beginnerHoesteKombination)) {
+      punkteAddieren(beginner, beginnerKombi);
+      return;
+    }
+
+    if (Objects.isNull(deckerHoesteKombination)) {
+      punkteAddieren(getDecker(beginner), beginnerKombi);
+      return;
+    }
+
+    if (beginnerHoesteKombination.getKey().wert().equals(deckerHoesteKombination.getKey().wert())) {
+      int beginnerCounter = 0;
+      int deckerCounter = 0;
+
+      for (Map.Entry<Karte, Kombination> entry : beginnerKombi.entrySet()) {
+        if (entry.getValue().equals(beginnerHoesteKombination.getValue())) {
+          beginnerCounter++;
+        }
+      }
+      for (Map.Entry<Karte, Kombination> entry : deckerKombi.entrySet()) {
+        if (entry.getValue().equals(deckerHoesteKombination.getValue())) {
+          deckerCounter++;
+        }
+      }
+
+      if (deckerCounter > beginnerCounter) {
+        punkteAddieren(getDecker(beginner), beginnerKombi);
+        return;
+      }
+    }
+    Map<Karte, Kombination> zweiHoesteKombinationen = new HashMap<>();
+    zweiHoesteKombinationen.put(
+        beginnerHoesteKombination.getKey(), beginnerHoesteKombination.getValue());
+    zweiHoesteKombinationen.put(
+        deckerHoesteKombination.getKey(), deckerHoesteKombination.getValue());
+    var gewinnerKombination = ermittleHoechsteKombination(zweiHoesteKombinationen);
+
+    if (deckerHoesteKombination.equals(gewinnerKombination)) {
+      punkteAddieren(getDecker(beginner), beginnerKombi);
+    } else {
+      punkteAddieren(beginner, beginnerKombi);
+    }
+  }
+
+  private void punkteAddieren(Spieler spieler, Map<Karte, Kombination> kombinationen) {
+    int punkte = 0;
+
+    for (Map.Entry<Karte, Kombination> entry : kombinationen.entrySet()) {
+      punkte = punkte + entry.getValue().getPunkte();
+    }
+    stand.addPunkte(spieler, Kombination.BELLE.getPunkte());
+  }
+
+  private Spieler getDecker(Spieler beginner) {
+    return beginner.equals(Spieler.SPIELER) ? Spieler.GEGNER : Spieler.SPIELER;
   }
 
   private Map.Entry<Karte, Kombination> ermittleHoechsteKombination(
