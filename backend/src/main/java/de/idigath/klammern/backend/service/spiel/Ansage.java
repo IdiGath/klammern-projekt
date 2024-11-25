@@ -58,6 +58,46 @@ public class Ansage extends AbstractPhase implements Phase {
     return this;
   }
 
+  private void verarbeiteAnsage(
+      final Spieler beginner,
+      final Map<Karte, Kombination> beginnerKombi,
+      final Map<Karte, Kombination> deckerKombi) {
+    var beginnerHoesteKombination = ermittleHoechsteKombination(beginnerKombi);
+    var deckerHoesteKombination = ermittleHoechsteKombination(deckerKombi);
+
+    // ToDo: Ansagenlogik verarbeiten
+    /*  Die Reihenfolge ist also: 2×50er>50er>2x Terz>Terz<br>
+            Wenn ein Spieler einen Terz bis Dame und ein anderer einen bis König, gewinnt der Spieler mit dem Terz bis
+            zum König.
+    <br>
+                    Wenn zwei Spieler einen gleichwertigen Terz haben, also zum Beispiel beide einen Terz bis Dame(10,
+                    Bube, Dame), gewinnt
+            die Trumpffarbe bzw. die Erstmeldung.<br>*/
+  }
+
+  private Map.Entry<Karte, Kombination> ermittleHoechsteKombination(
+      Map<Karte, Kombination> kombinationen) {
+    Map.Entry<Karte, Kombination> result = null;
+    for (Map.Entry<Karte, Kombination> entry : kombinationen.entrySet()) {
+      if (Objects.isNull(result)) {
+        result = entry;
+      } else {
+        if (entry.getValue().equals(result.getValue())) {
+          if (entry.getKey().wert().getReihenfolge() == result.getKey().wert().getReihenfolge()
+              && entry.getKey().farbe().equals(trumpfKarte.farbe())) {
+            result = entry;
+          }
+          if (entry.getKey().wert().getReihenfolge() > result.getKey().wert().getReihenfolge()) {
+            result = entry;
+          }
+        } else if (entry.getValue().getKartenAnzahl() > result.getValue().getKartenAnzahl()) {
+          result = entry;
+        }
+      }
+    }
+    return result;
+  }
+
   private void trumpfWechseln(Zug zug) {
     var reihe = reihen.get(zug.getBeginner());
     reihe.addSpielkarte(trumpfKarte);
@@ -221,20 +261,6 @@ public class Ansage extends AbstractPhase implements Phase {
     if (deck.countSpielkarten() == 1) {
       throw new IllegalArgumentException("Einzelkarte ist keine Kombination!");
     }
-  }
-
-  private void verarbeiteAnsage(
-      final Spieler beginner,
-      final Map<Karte, Kombination> beginnerKombi,
-      final Map<Karte, Kombination> deckerKombi) {
-    // ToDo: Ansagenlogik verarbeiten
-    /*  Die Reihenfolge ist also: 2×50er>50er>2x Terz>Terz<br>
-            Wenn ein Spieler einen Terz bis Dame und ein anderer einen bis König, gewinnt der Spieler mit dem Terz bis
-            zum König.
-    <br>
-                    Wenn zwei Spieler einen gleichwertigen Terz haben, also zum Beispiel beide einen Terz bis Dame(10,
-                    Bube, Dame), gewinnt
-            die Trumpffarbe bzw. die Erstmeldung.<br>*/
   }
 
   private boolean isTrumpfkarteWechsel(Zug zug) {
