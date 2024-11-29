@@ -83,52 +83,55 @@ public class Ansage extends AbstractPhase implements Phase {
       Spieler beginner,
       Map<Karte, Kombination> beginnerKombi,
       Map<Karte, Kombination> deckerKombi) {
-    var beginnerHoesteKombination = ermittleHoechsteKombination(beginnerKombi);
-    var deckerHoesteKombination = ermittleHoechsteKombination(deckerKombi);
+    var beginnerHoechsteKombination = ermittleHoechsteKombination(beginnerKombi);
+    var deckerHoechsteKombination = ermittleHoechsteKombination(deckerKombi);
 
-    if (Objects.isNull(beginnerHoesteKombination) && Objects.isNull(deckerHoesteKombination)) {
+    if (Objects.isNull(beginnerHoechsteKombination) && Objects.isNull(deckerHoechsteKombination)) {
       return;
     }
 
-    if (Objects.isNull(beginnerHoesteKombination)) {
+    if (Objects.isNull(beginnerHoechsteKombination)) {
       punkteAddieren(beginner, beginnerKombi);
       return;
     }
 
-    if (Objects.isNull(deckerHoesteKombination)) {
+    if (Objects.isNull(deckerHoechsteKombination)) {
       punkteAddieren(getDecker(beginner), beginnerKombi);
       return;
     }
 
-    if (beginnerHoesteKombination.getKey().wert().equals(deckerHoesteKombination.getKey().wert())) {
+    if (beginnerHoechsteKombination
+        .getKey()
+        .wert()
+        .equals(deckerHoechsteKombination.getKey().wert())) {
       int beginnerCounter = 0;
       int deckerCounter = 0;
 
       for (Map.Entry<Karte, Kombination> entry : beginnerKombi.entrySet()) {
-        if (entry.getValue().equals(beginnerHoesteKombination.getValue())) {
+        if (entry.getValue().equals(beginnerHoechsteKombination.getValue())) {
           beginnerCounter++;
         }
       }
       for (Map.Entry<Karte, Kombination> entry : deckerKombi.entrySet()) {
-        if (entry.getValue().equals(deckerHoesteKombination.getValue())) {
+        if (entry.getValue().equals(deckerHoechsteKombination.getValue())) {
           deckerCounter++;
         }
       }
 
       if (deckerCounter > beginnerCounter) {
-        punkteAddieren(getDecker(beginner), beginnerKombi);
+        punkteAddieren(getDecker(beginner), deckerKombi);
         return;
       }
     }
     Map<Karte, Kombination> zweiHoesteKombinationen = new HashMap<>();
     zweiHoesteKombinationen.put(
-        beginnerHoesteKombination.getKey(), beginnerHoesteKombination.getValue());
+        beginnerHoechsteKombination.getKey(), beginnerHoechsteKombination.getValue());
     zweiHoesteKombinationen.put(
-        deckerHoesteKombination.getKey(), deckerHoesteKombination.getValue());
+        deckerHoechsteKombination.getKey(), deckerHoechsteKombination.getValue());
     var gewinnerKombination = ermittleHoechsteKombination(zweiHoesteKombinationen);
 
-    if (deckerHoesteKombination.equals(gewinnerKombination)) {
-      punkteAddieren(getDecker(beginner), beginnerKombi);
+    if (deckerHoechsteKombination.equals(gewinnerKombination)) {
+      punkteAddieren(getDecker(beginner), deckerKombi);
     } else {
       punkteAddieren(beginner, beginnerKombi);
     }
