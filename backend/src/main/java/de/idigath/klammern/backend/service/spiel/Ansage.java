@@ -96,7 +96,7 @@ public class Ansage extends AbstractPhase implements Phase {
     }
 
     if (Objects.isNull(deckerHoechsteKombination)) {
-      punkteAddieren(getDecker(beginner), beginnerKombi);
+      punkteAddieren(getDecker(beginner), deckerKombi);
       return;
     }
 
@@ -123,6 +123,7 @@ public class Ansage extends AbstractPhase implements Phase {
         return;
       }
     }
+
     Map<Karte, Kombination> zweiHoesteKombinationen = new HashMap<>();
     zweiHoesteKombinationen.put(
         beginnerHoechsteKombination.getKey(), beginnerHoechsteKombination.getValue());
