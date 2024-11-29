@@ -20,10 +20,23 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
+/**
+ * Beim Beginn der Phase bekommt jeder Spieler drei weitere Karten. Danach beginnt die Ansage der
+ * vorhandenen Kombinationen. Im Fall der Wechsel einer Trumpfkarte oder Belle wird nur von einem
+ * Spieler gefüllter Zug gespielt. Schließlich findet ein Vergleich der Kombinationen statt, der
+ * Gewinner bekommt die Punkte seiner Kombination zugeschrieben.
+ */
 public class Ansage extends AbstractPhase implements Phase {
+  private static final int ANZAHL_KARTEN = 3;
   private final boolean nativeTrumpf;
   private boolean ansageFertig;
 
+  /**
+   * Dieser Konstruktor wird beim Ende einer runde benutzt. In dem Parameter wird die ganze
+   * Information aus der vorherigen Phase geliefert.
+   *
+   * @param phasenInfo Information der vorherigen Phase.
+   */
   public Ansage(PhasenInfo phasenInfo) {
     this.stand = phasenInfo.stand();
     this.beginner = phasenInfo.beginner();
@@ -31,6 +44,14 @@ public class Ansage extends AbstractPhase implements Phase {
     this.reihen = phasenInfo.reihen();
     this.spielDeck = phasenInfo.spielDeck();
     this.trumpfKarte = phasenInfo.trumpfKarte();
+    kartenAusteilen();
+  }
+
+  private void kartenAusteilen() {
+    for (int i = 0; i < ANZAHL_KARTEN; i++) {
+      reihen.get(Spieler.SPIELER).addSpielkarte(spielDeck.giveSpielkarte());
+      reihen.get(Spieler.GEGNER).addSpielkarte(spielDeck.giveSpielkarte());
+    }
   }
 
   @Override
