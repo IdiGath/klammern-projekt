@@ -19,6 +19,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Set;
 
 /**
  * Beim Beginn der Phase bekommt jeder Spieler drei weitere Karten. Danach beginnt die Ansage der
@@ -83,8 +84,10 @@ public class Ansage extends AbstractPhase implements Phase {
       Spieler beginner,
       Map<Karte, Kombination> beginnerKombi,
       Map<Karte, Kombination> deckerKombi) {
-    var beginnerHoechsteKombination = ermittleHoechsteKombination(beginnerKombi);
-    var deckerHoechsteKombination = ermittleHoechsteKombination(deckerKombi);
+    var beginnerHoechsteKombination =
+        beginnerKombi.isEmpty() ? null : ermittleHoechsteKombination(beginnerKombi);
+    var deckerHoechsteKombination =
+        deckerKombi.isEmpty() ? null : ermittleHoechsteKombination(deckerKombi);
 
     if (Objects.isNull(beginnerHoechsteKombination) && Objects.isNull(deckerHoechsteKombination)) {
       return;
@@ -104,21 +107,15 @@ public class Ansage extends AbstractPhase implements Phase {
         .getKey()
         .wert()
         .equals(deckerHoechsteKombination.getKey().wert())) {
-      int beginnerCounter = 0;
-      int deckerCounter = 0;
 
-      for (Map.Entry<Karte, Kombination> entry : beginnerKombi.entrySet()) {
-        if (entry.getValue().equals(beginnerHoechsteKombination.getValue())) {
-          beginnerCounter++;
-        }
-      }
-      for (Map.Entry<Karte, Kombination> entry : deckerKombi.entrySet()) {
-        if (entry.getValue().equals(deckerHoechsteKombination.getValue())) {
-          deckerCounter++;
-        }
-      }
+      int anzahlDerGleichenBeginnerKombis =
+          ermittleAnzahlVonGleichenKombis(
+              beginnerHoechsteKombination.getValue(), beginnerKombi.entrySet());
+      int anzahlDerGleichenDeckerKombis =
+          ermittleAnzahlVonGleichenKombis(
+              deckerHoechsteKombination.getValue(), deckerKombi.entrySet());
 
-      if (deckerCounter > beginnerCounter) {
+      if (anzahlDerGleichenDeckerKombis > anzahlDerGleichenBeginnerKombis) {
         punkteAddieren(getDecker(beginner), deckerKombi);
         return;
       }
@@ -138,6 +135,17 @@ public class Ansage extends AbstractPhase implements Phase {
     }
   }
 
+  private int ermittleAnzahlVonGleichenKombis(
+      Kombination kombinationZumVergleich, Set<Map.Entry<Karte, Kombination>> kombinationen) {
+    int counter = 0;
+    for (Map.Entry<Karte, Kombination> kombination : kombinationen) {
+      if (kombination.getValue().equals(kombinationZumVergleich)) {
+        counter++;
+      }
+    }
+    return counter;
+  }
+
   private void punkteAddieren(Spieler spieler, Map<Karte, Kombination> kombinationen) {
     int punkte = 0;
 
@@ -153,22 +161,20 @@ public class Ansage extends AbstractPhase implements Phase {
 
   private Map.Entry<Karte, Kombination> ermittleHoechsteKombination(
       Map<Karte, Kombination> kombinationen) {
-    Map.Entry<Karte, Kombination> result = null;
-    for (Map.Entry<Karte, Kombination> entry : kombinationen.entrySet()) {
-      if (Objects.isNull(result)) {
-        result = entry;
-      } else {
-        if (entry.getValue().equals(result.getValue())) {
-          if (entry.getKey().wert().getReihenfolge() == result.getKey().wert().getReihenfolge()
-              && entry.getKey().farbe().equals(trumpfKarte.farbe())) {
-            result = entry;
-          }
-          if (entry.getKey().wert().getReihenfolge() > result.getKey().wert().getReihenfolge()) {
-            result = entry;
-          }
-        } else if (entry.getValue().getKartenAnzahl() > result.getValue().getKartenAnzahl()) {
+    var iterator = kombinationen.entrySet().iterator();
+    Map.Entry<Karte, Kombination> result = iterator.next();
+    while (iterator.hasNext()) {
+      var entry = iterator.next();
+      if (entry.getValue().equals(result.getValue())) {
+        if (entry.getKey().wert().getReihenfolge() == result.getKey().wert().getReihenfolge()
+            && entry.getKey().farbe().equals(trumpfKarte.farbe())) {
           result = entry;
         }
+        if (entry.getKey().wert().getReihenfolge() > result.getKey().wert().getReihenfolge()) {
+          result = entry;
+        }
+      } else if (entry.getValue().getKartenAnzahl() > result.getValue().getKartenAnzahl()) {
+        result = entry;
       }
     }
     return result;
