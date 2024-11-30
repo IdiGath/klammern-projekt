@@ -128,7 +128,6 @@ Wenn beide Spieler die Wahl des Trumpfs ablehnen, wird gepasst und neu gegeben.
 ## Prozessablauf
 
 ![Klammern-Ablauf](Klammern-Ablauf.png)
-[Oder als Pdf](./Klammern-Ablauf.pdf)
 
 ## Bilden und Ausführen
 
