@@ -30,19 +30,16 @@ public abstract class AbstractPhase implements Phase {
     }
   }
 
-  /** {@inheritDoc} */
   @Override
   public Spieler getBeginner() {
     return beginner;
   }
 
-  /** {@inheritDoc} */
   @Override
   public Karte getTrumpfKarte() {
     return trumpfKarte;
   }
 
-  /** {@inheritDoc} */
   @Override
   public List<Karte> getKarten(Spieler spieler) {
     return reihen.get(spieler).getSpielkartenList();

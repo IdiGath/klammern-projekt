@@ -59,7 +59,6 @@ public class Wahl extends AbstractPhase implements Phase {
     }
   }
 
-  /** {@inheritDoc} */
   @Override
   public void spieleZug(Zug zug) {
     validateZug(zug);
@@ -70,7 +69,6 @@ public class Wahl extends AbstractPhase implements Phase {
     }
   }
 
-  /** {@inheritDoc} */
   @Override
   public Phase getNext() {
     if (trumpfAusgewaehlt) {

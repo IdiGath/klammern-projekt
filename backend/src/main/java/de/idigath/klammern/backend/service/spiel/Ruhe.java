@@ -39,7 +39,6 @@ public class Ruhe extends AbstractPhase implements Phase {
     trumpfKarte = phasenInfo.trumpfKarte();
   }
 
-  /** {@inheritDoc} */
   @Override
   public void spieleZug(Zug zug) {
     if (Objects.nonNull(trumpfKarte)) {
@@ -47,7 +46,6 @@ public class Ruhe extends AbstractPhase implements Phase {
     }
   }
 
-  /** {@inheritDoc} */
   @Override
   public Phase getNext() {
     return new Wahl(beginner, stand);
