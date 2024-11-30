@@ -4,6 +4,7 @@ import de.idigath.klammern.backend.model.Spieler;
 import de.idigath.klammern.backend.model.Zug;
 import de.idigath.klammern.backend.web.dto.ZugDto;
 
+// ToDo: ZugMapper neu schreiben wenn die Partie fertig ist
 public class ZugMapper {
 
   private ZugMapper() {

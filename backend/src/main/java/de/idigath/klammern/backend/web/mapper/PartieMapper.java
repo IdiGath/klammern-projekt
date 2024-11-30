@@ -1,5 +1,7 @@
 package de.idigath.klammern.backend.web.mapper;
 
+import static de.idigath.klammern.backend.web.mapper.KarteMapper.mapKarteToDto;
+
 import de.idigath.klammern.backend.model.Spieler;
 import de.idigath.klammern.backend.model.Stand;
 import de.idigath.klammern.backend.service.Partie;
@@ -7,8 +9,8 @@ import de.idigath.klammern.backend.web.dto.PartieDto;
 import de.idigath.klammern.backend.web.dto.RundeDto;
 import de.idigath.klammern.backend.web.dto.StandDto;
 
-import static de.idigath.klammern.backend.web.mapper.KarteMapper.mapKarteToDto;
-
+// ToDo: Neuschreiben wenn die Partie fertig ist
+// ToDo: RundeMapper erstellen
 public class PartieMapper {
 
   private PartieMapper() {

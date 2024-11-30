@@ -5,6 +5,7 @@ import de.idigath.klammern.backend.model.Karte;
 import de.idigath.klammern.backend.model.Wert;
 import de.idigath.klammern.backend.web.dto.KarteDto;
 
+// ToDo: Neuschreiben wenn die Partie fertig ist
 public class KarteMapper {
   private KarteMapper() {
     throw new AssertionError(
@@ -12,6 +13,7 @@ public class KarteMapper {
   }
 
   public static KarteDto mapKarteToDto(Karte karte) {
+
     return new KarteDto(karte.farbe().getName(), karte.wert().getName());
   }
 
