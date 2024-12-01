@@ -1,4 +1,4 @@
-package de.idigath.klammern.backend.service.spiel;
+package de.idigath.klammern.backend.service.spiel.phase;
 
 import de.idigath.klammern.backend.model.PhasenInfo;
 import de.idigath.klammern.backend.model.Spieler;
@@ -20,7 +20,7 @@ public class Ruhe extends AbstractPhase implements Phase {
    * @param beginner ermittelter Beginner der Runde
    * @param stand neuer Spielstand
    */
-  Ruhe(Spieler beginner, Stand stand) {
+  public Ruhe(Spieler beginner, Stand stand) {
     this.stand = stand;
     this.beginner = beginner;
   }

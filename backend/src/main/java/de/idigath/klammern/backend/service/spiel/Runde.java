@@ -4,6 +4,8 @@ import de.idigath.klammern.backend.model.Karte;
 import de.idigath.klammern.backend.model.Spieler;
 import de.idigath.klammern.backend.model.Stand;
 import de.idigath.klammern.backend.model.Zug;
+import de.idigath.klammern.backend.service.spiel.phase.Phase;
+import de.idigath.klammern.backend.service.spiel.phase.Ruhe;
 import java.util.List;
 import java.util.Objects;
 import lombok.EqualsAndHashCode;

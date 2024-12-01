@@ -1,4 +1,4 @@
-package de.idigath.klammern.backend.service.spiel;
+package de.idigath.klammern.backend.service.spiel.phase;
 
 import de.idigath.klammern.backend.model.DeckFactory;
 import de.idigath.klammern.backend.model.DeckTyp;
