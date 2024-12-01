@@ -1,5 +1,6 @@
 package de.idigath.klammern.backend.service.spiel.phase;
 
+import de.idigath.klammern.backend.model.Deck;
 import de.idigath.klammern.backend.model.DeckFactory;
 import de.idigath.klammern.backend.model.DeckTyp;
 import de.idigath.klammern.backend.model.Karte;
@@ -8,7 +9,7 @@ import de.idigath.klammern.backend.model.Spieler;
 import de.idigath.klammern.backend.model.Stand;
 import de.idigath.klammern.backend.model.Wert;
 import de.idigath.klammern.backend.model.Zug;
-import java.util.EnumMap;
+import java.util.Map;
 
 /**
  * Während dieser Phase findet eine Auswahl der Trumpffarbe statt. Zum Beginn der Phase bekommt
@@ -28,25 +29,20 @@ public class Wahl extends AbstractPhase implements Phase {
    *
    * @param beginner Beginner der Phase
    * @param stand übergebener Stand
+   * @param reihen initialisierte Reihen
    */
-  public Wahl(Spieler beginner, Stand stand) {
+  public Wahl(Spieler beginner, Stand stand, Map<Spieler, Deck> reihen) {
     this.beginner = beginner;
     this.stand = stand;
+    this.reihen = reihen;
     phaseNeuBeginnen();
   }
 
   private void phaseNeuBeginnen() {
-    reihenVorbereiten();
     kartenAusteilen();
     anzTrumpfwahlAbsagen = 0;
     nativeTrumpf = true;
     trumpfAusgewaehlt = false;
-  }
-
-  private void reihenVorbereiten() {
-    reihen = new EnumMap<>(Spieler.class);
-    reihen.put(Spieler.SPIELER, DeckFactory.createDeck(DeckTyp.REIHE));
-    reihen.put(Spieler.GEGNER, DeckFactory.createDeck(DeckTyp.REIHE));
   }
 
   private void kartenAusteilen() {

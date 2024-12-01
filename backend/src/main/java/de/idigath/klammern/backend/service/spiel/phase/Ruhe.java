@@ -1,9 +1,12 @@
 package de.idigath.klammern.backend.service.spiel.phase;
 
+import de.idigath.klammern.backend.model.DeckFactory;
+import de.idigath.klammern.backend.model.DeckTyp;
 import de.idigath.klammern.backend.model.PhasenInfo;
 import de.idigath.klammern.backend.model.Spieler;
 import de.idigath.klammern.backend.model.Stand;
 import de.idigath.klammern.backend.model.Zug;
+import java.util.EnumMap;
 import java.util.Objects;
 
 /**
@@ -23,6 +26,7 @@ public class Ruhe extends AbstractPhase implements Phase {
   public Ruhe(Spieler beginner, Stand stand) {
     this.stand = stand;
     this.beginner = beginner;
+    reihenVorbereiten();
   }
 
   /**
@@ -39,6 +43,12 @@ public class Ruhe extends AbstractPhase implements Phase {
     trumpfKarte = phasenInfo.trumpfKarte();
   }
 
+  private void reihenVorbereiten() {
+    reihen = new EnumMap<>(Spieler.class);
+    reihen.put(Spieler.SPIELER, DeckFactory.createDeck(DeckTyp.REIHE));
+    reihen.put(Spieler.GEGNER, DeckFactory.createDeck(DeckTyp.REIHE));
+  }
+
   @Override
   public void spieleZug(Zug zug) {
     if (Objects.nonNull(trumpfKarte)) {
@@ -48,6 +58,6 @@ public class Ruhe extends AbstractPhase implements Phase {
 
   @Override
   public Phase getNext() {
-    return new Wahl(beginner, stand);
+    return new Wahl(beginner, stand, reihen);
   }
 }
