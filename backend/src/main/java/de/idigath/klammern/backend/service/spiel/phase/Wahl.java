@@ -84,6 +84,7 @@ public class Wahl extends AbstractPhase implements Phase {
     if (isNeustartErforderlich()) {
       phaseNeuBeginnen();
     }
+    anzTrumpfwahlAbsagen++;
   }
 
   private void reingangVerarbeiten(Zug zug) {
