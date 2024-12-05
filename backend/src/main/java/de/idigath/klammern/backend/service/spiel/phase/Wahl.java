@@ -99,7 +99,7 @@ public class Wahl extends AbstractPhase implements Phase {
 
   private void validateTrumpfAuswahl(Karte trumpfAuswahl) {
     int nativeTrumpVersuche = 2;
-    if (anzTrumpfwahlAbsagen <= nativeTrumpVersuche && isNotNativeFarbe(trumpfAuswahl)) {
+    if (anzTrumpfwahlAbsagen < nativeTrumpVersuche && isNotNativeFarbe(trumpfAuswahl)) {
       throw new IllegalArgumentException(
           "Erste zwei Versuche entscheiden über den vorgeschlagenen Trumpf");
     }
