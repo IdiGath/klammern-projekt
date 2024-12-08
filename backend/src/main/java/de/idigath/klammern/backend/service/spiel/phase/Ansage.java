@@ -15,6 +15,7 @@ import de.idigath.klammern.backend.service.vergleich.KartenComparator;
 import de.idigath.klammern.backend.service.vergleich.VergleichsTyp;
 import java.util.EnumMap;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -103,10 +104,7 @@ public class Ansage extends AbstractPhase implements Phase {
       return;
     }
 
-    if (beginnerHoechsteKombination
-        .getKey()
-        .wert()
-        .equals(deckerHoechsteKombination.getKey().wert())) {
+    if (beginnerHoechsteKombination.getValue().equals(deckerHoechsteKombination.getValue())) {
 
       int anzahlDerGleichenBeginnerKombis =
           ermittleAnzahlVonGleichenKombis(
@@ -118,10 +116,13 @@ public class Ansage extends AbstractPhase implements Phase {
       if (anzahlDerGleichenDeckerKombis > anzahlDerGleichenBeginnerKombis) {
         punkteAddieren(getDecker(beginner), deckerKombi);
         return;
+      } else if (anzahlDerGleichenDeckerKombis < anzahlDerGleichenBeginnerKombis) {
+        punkteAddieren(beginner, beginnerKombi);
+        return;
       }
     }
 
-    Map<Karte, Kombination> zweiHoesteKombinationen = new HashMap<>();
+    Map<Karte, Kombination> zweiHoesteKombinationen = new LinkedHashMap<>();
     zweiHoesteKombinationen.put(
         beginnerHoechsteKombination.getKey(), beginnerHoechsteKombination.getValue());
     zweiHoesteKombinationen.put(
