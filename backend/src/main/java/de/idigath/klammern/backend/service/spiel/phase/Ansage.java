@@ -244,7 +244,7 @@ public class Ansage extends AbstractPhase implements Phase {
     List<Wert> kartenWertList = entry.getValue();
     Integer untergeordneteReihenfolge = null;
     for (Wert kartenwert : kartenWertList) {
-      if (Objects.isNull(zerlegteKombinationen.getLast())) {
+      if (zerlegteKombinationen.isEmpty()) {
         zerlegteKombinationen.add(new LinkedList<>());
       }
 

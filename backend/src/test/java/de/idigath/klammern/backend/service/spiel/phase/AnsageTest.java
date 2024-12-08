@@ -193,4 +193,46 @@ class AnsageTest {
 
     assertThat(phase.getNext()).isEqualTo(phase);
   }
+
+  @Test
+  void getNext_zugSpielen_neuePhase() {
+    var zug = new Zug();
+    zug.setBeginner(Spieler.SPIELER);
+    zug.setDecker(Spieler.GEGNER);
+
+    var phaseninfo = createDummyPhasenInfo();
+    var phase = new Ansage(phaseninfo);
+
+    phase.spieleZug(zug);
+
+    assertThat(phase.getNext()).isInstanceOf(Aktion.class);
+  }
+
+  @Test
+  void spieleZug_fuenfzigerUeber2TerzGleicherFarbe_fuenfzigerGewinnt() {
+    var zug = new Zug();
+    zug.setBeginner(Spieler.SPIELER);
+    zug.setDecker(Spieler.GEGNER);
+    zug.addKarte(Spieler.SPIELER, new Karte(Farbe.HERZ, Wert.ACHT));
+    zug.addKarte(Spieler.SPIELER, new Karte(Farbe.HERZ, Wert.NEUN));
+    zug.addKarte(Spieler.SPIELER, new Karte(Farbe.HERZ, Wert.ZEHN));
+    zug.addKarte(Spieler.SPIELER, new Karte(Farbe.HERZ, Wert.BUBE));
+
+    zug.addKarte(Spieler.GEGNER, new Karte(Farbe.PIK, Wert.ACHT));
+    zug.addKarte(Spieler.GEGNER, new Karte(Farbe.PIK, Wert.NEUN));
+    zug.addKarte(Spieler.GEGNER, new Karte(Farbe.PIK, Wert.ZEHN));
+
+    zug.addKarte(Spieler.GEGNER, new Karte(Farbe.PIK, Wert.DAME));
+    zug.addKarte(Spieler.GEGNER, new Karte(Farbe.PIK, Wert.KOENIG));
+    zug.addKarte(Spieler.GEGNER, new Karte(Farbe.PIK, Wert.ASS));
+
+    var phaseninfo = createDummyPhasenInfo();
+    var phase = new Ansage(phaseninfo);
+
+    phase.spieleZug(zug);
+
+    assertThat(phaseninfo.stand().getPunkte(Spieler.SPIELER))
+        .isEqualTo(Kombination.FUENFZIGER.getPunkte());
+    assertThat(phaseninfo.stand().getPunkte(Spieler.GEGNER)).isZero();
+  }
 }
