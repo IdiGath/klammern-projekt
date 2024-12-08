@@ -152,7 +152,7 @@ public class Ansage extends AbstractPhase implements Phase {
     for (Map.Entry<Karte, Kombination> entry : kombinationen.entrySet()) {
       punkte = punkte + entry.getValue().getPunkte();
     }
-    stand.addPunkte(spieler, Kombination.BELLE.getPunkte());
+    stand.addPunkte(spieler, punkte);
   }
 
   private Spieler getDecker(Spieler beginner) {
@@ -316,6 +316,7 @@ public class Ansage extends AbstractPhase implements Phase {
         result = false;
         break;
       }
+      untergeordneteReihenfolge = aktuelleReihenfolge;
     }
     return result;
   }
