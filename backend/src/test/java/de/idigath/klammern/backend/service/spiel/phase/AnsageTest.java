@@ -136,6 +136,57 @@ class AnsageTest {
   }
 
   @Test
+  void spieleZug_leererZug_keinUnterschied() {
+    var zug = new Zug();
+    zug.setBeginner(Spieler.SPIELER);
+    zug.setDecker(Spieler.GEGNER);
+
+    var phaseninfo = createDummyPhasenInfo();
+    var phase = new Ansage(phaseninfo);
+
+    phase.spieleZug(zug);
+
+    assertThat(phaseninfo.stand().getPunkte(Spieler.SPIELER)).isZero();
+    assertThat(phaseninfo.stand().getPunkte(Spieler.GEGNER)).isZero();
+  }
+
+  @Test
+  void spieleZug_beginnerLeererZug_deckerGewinnt() {
+    var zug = new Zug();
+    zug.setBeginner(Spieler.SPIELER);
+    zug.setDecker(Spieler.GEGNER);
+    zug.addKarte(Spieler.GEGNER, new Karte(Farbe.PIK, Wert.DAME));
+    zug.addKarte(Spieler.GEGNER, new Karte(Farbe.PIK, Wert.BUBE));
+    zug.addKarte(Spieler.GEGNER, new Karte(Farbe.PIK, Wert.ZEHN));
+    var phaseninfo = createDummyPhasenInfo();
+    var phase = new Ansage(phaseninfo);
+
+    phase.spieleZug(zug);
+
+    assertThat(phaseninfo.stand().getPunkte(Spieler.SPIELER)).isZero();
+    assertThat(phaseninfo.stand().getPunkte(Spieler.GEGNER))
+        .isEqualTo(Kombination.TERZ.getPunkte());
+  }
+
+  @Test
+  void spieleZug_gegnerLeererZug_spielerGewinnt() {
+    var zug = new Zug();
+    zug.setBeginner(Spieler.SPIELER);
+    zug.setDecker(Spieler.GEGNER);
+    zug.addKarte(Spieler.SPIELER, new Karte(Farbe.PIK, Wert.DAME));
+    zug.addKarte(Spieler.SPIELER, new Karte(Farbe.PIK, Wert.BUBE));
+    zug.addKarte(Spieler.SPIELER, new Karte(Farbe.PIK, Wert.ZEHN));
+    var phaseninfo = createDummyPhasenInfo();
+    var phase = new Ansage(phaseninfo);
+
+    phase.spieleZug(zug);
+
+    assertThat(phaseninfo.stand().getPunkte(Spieler.GEGNER)).isZero();
+    assertThat(phaseninfo.stand().getPunkte(Spieler.SPIELER))
+        .isEqualTo(Kombination.TERZ.getPunkte());
+  }
+
+  @Test
   void getNext_keineAenderung_ok() {
     var phaseninfo = createDummyPhasenInfo();
     var phase = new Ansage(phaseninfo);

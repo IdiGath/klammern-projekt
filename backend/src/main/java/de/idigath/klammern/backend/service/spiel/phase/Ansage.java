@@ -95,12 +95,12 @@ public class Ansage extends AbstractPhase implements Phase {
     }
 
     if (Objects.isNull(beginnerHoechsteKombination)) {
-      punkteAddieren(beginner, beginnerKombi);
+      punkteAddieren(getDecker(beginner), deckerKombi);
       return;
     }
 
     if (Objects.isNull(deckerHoechsteKombination)) {
-      punkteAddieren(getDecker(beginner), deckerKombi);
+      punkteAddieren(beginner, beginnerKombi);
       return;
     }
 
