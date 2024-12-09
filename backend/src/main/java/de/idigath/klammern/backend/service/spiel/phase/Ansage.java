@@ -185,6 +185,7 @@ public class Ansage extends AbstractPhase implements Phase {
     var reihe = reihen.get(zug.getBeginner());
     reihe.addSpielkarte(trumpfKarte);
     trumpfKarte = zug.getBeginnerKarten().getFirst();
+    reihe.giveSpielkarte(trumpfKarte.farbe(), trumpfKarte.wert());
   }
 
   private boolean isBelle(Zug zug) {
@@ -193,7 +194,7 @@ public class Ansage extends AbstractPhase implements Phase {
     return zug.getBeginnerKarten().size() == 2
         && zug.getDeckerKarten().isEmpty()
         && zug.getBeginnerKarten().getFirst().equals(trumpfDame)
-        && zug.getBeginnerKarten().getFirst().equals(trumpfKoenig);
+        && zug.getBeginnerKarten().getLast().equals(trumpfKoenig);
   }
 
   private Map<Karte, Kombination> ermittleKombinationen(List<Karte> karten) {

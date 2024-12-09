@@ -143,6 +143,31 @@ class AnsageTest {
   }
 
   @Test
+  void spieleZug_terzUnter2Terz_zweiTerzenGewinnen() {
+    var zug = new Zug();
+    zug.setBeginner(Spieler.SPIELER);
+    zug.setDecker(Spieler.GEGNER);
+    zug.addKarte(Spieler.SPIELER, new Karte(Farbe.KREUZ, Wert.SIEBEN));
+    zug.addKarte(Spieler.SPIELER, new Karte(Farbe.KREUZ, Wert.ACHT));
+    zug.addKarte(Spieler.SPIELER, new Karte(Farbe.KREUZ, Wert.NEUN));
+    zug.addKarte(Spieler.GEGNER, new Karte(Farbe.HERZ, Wert.SIEBEN));
+    zug.addKarte(Spieler.GEGNER, new Karte(Farbe.HERZ, Wert.ACHT));
+    zug.addKarte(Spieler.GEGNER, new Karte(Farbe.HERZ, Wert.NEUN));
+    zug.addKarte(Spieler.GEGNER, new Karte(Farbe.PIK, Wert.SIEBEN));
+    zug.addKarte(Spieler.GEGNER, new Karte(Farbe.PIK, Wert.ACHT));
+    zug.addKarte(Spieler.GEGNER, new Karte(Farbe.PIK, Wert.NEUN));
+
+    var phaseninfo = createDummyPhasenInfo();
+    var phase = new Ansage(phaseninfo);
+
+    phase.spieleZug(zug);
+
+    assertThat(phaseninfo.stand().getPunkte(Spieler.GEGNER))
+        .isEqualTo(Kombination.TERZ.getPunkte() * 2);
+    assertThat(phaseninfo.stand().getPunkte(Spieler.SPIELER)).isZero();
+  }
+
+  @Test
   void spieleZug_terzUeberTerz_beginnerGewinnt() {
     var zug = new Zug();
     zug.setBeginner(Spieler.SPIELER);
@@ -312,5 +337,40 @@ class AnsageTest {
     assertThatThrownBy(() -> phase.spieleZug(zug))
         .isInstanceOf(IllegalArgumentException.class)
         .hasMessageStartingWith("Einzelkarte ist keine Kombination!");
+  }
+
+  @Test
+  void spieleZug_belle_ok() {
+
+    var phaseninfo = createDummyPhasenInfo();
+    var phase = new Ansage(phaseninfo);
+    var zug = new Zug();
+    zug.setBeginner(Spieler.SPIELER);
+    zug.setDecker(Spieler.GEGNER);
+    zug.addKarte(Spieler.SPIELER, new Karte(phase.trumpfKarte.farbe(), Wert.DAME));
+    zug.addKarte(Spieler.SPIELER, new Karte(phase.trumpfKarte.farbe(), Wert.KOENIG));
+
+    phase.spieleZug(zug);
+
+    assertThat(phaseninfo.stand().getPunkte(Spieler.SPIELER))
+        .isEqualTo(Kombination.BELLE.getPunkte());
+  }
+
+  @Test
+  void spieleZug_kaputteBelle_ok() {
+
+    var phaseninfo = createDummyPhasenInfo();
+    var phase = new Ansage(phaseninfo);
+    var zug = new Zug();
+    zug.setBeginner(Spieler.SPIELER);
+    zug.setDecker(Spieler.GEGNER);
+    zug.addKarte(Spieler.SPIELER, new Karte(phase.trumpfKarte.farbe(), Wert.DAME));
+    zug.addKarte(Spieler.SPIELER, new Karte(phase.trumpfKarte.farbe(), Wert.KOENIG));
+
+    zug.addKarte(Spieler.GEGNER, new Karte(phase.trumpfKarte.farbe(), Wert.KOENIG));
+
+    assertThatThrownBy(() -> phase.spieleZug(zug))
+        .isInstanceOf(IllegalArgumentException.class)
+        .hasMessageStartingWith("Übergebene Karten stellen keine gültige Kombination dar!");
   }
 }
