@@ -253,7 +253,8 @@ public class Ansage extends AbstractPhase implements Phase {
       }
       int aktuelleReihenfolge = kartenwert.getReihenfolge();
 
-      if (aktuelleReihenfolge - untergeordneteReihenfolge != 1) {
+      if (aktuelleReihenfolge - untergeordneteReihenfolge != 1
+          || untergeordneteReihenfolge.equals(Kombination.FUENFZIGER.getKartenAnzahl())) {
         zerlegteKombinationen.add(new LinkedList<>());
       }
       zerlegteKombinationen.getLast().add(kartenwert);
