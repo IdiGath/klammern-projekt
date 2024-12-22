@@ -373,4 +373,26 @@ class AnsageTest {
         .isInstanceOf(IllegalArgumentException.class)
         .hasMessageStartingWith("Übergebene Karten stellen keine gültige Kombination dar!");
   }
+
+  @Test
+  void spieleZug_trumpfWechseln_ok() {
+    Deck deck = DeckFactory.createDeck(SPIELDECK);
+    Map<Spieler, Deck> reihen = new EnumMap<>(Spieler.class);
+    reihen.put(Spieler.SPIELER, DeckFactory.createDeck(DeckTyp.REIHE));
+    reihen.put(Spieler.GEGNER, DeckFactory.createDeck(DeckTyp.REIHE));
+    var trumpfKarte = new Karte(Farbe.KREUZ, Wert.ASS);
+    deck.giveSpielkarte(Farbe.KREUZ, Wert.ASS);
+    reihen.get(Spieler.SPIELER).addSpielkarte(deck.giveSpielkarte(Farbe.KREUZ, Wert.SIEBEN));
+    Stand stand = new Stand();
+    var phaseninfo = new PhasenInfo(Spieler.SPIELER, stand, deck, reihen, trumpfKarte, true);
+    var zug = new Zug();
+    zug.setBeginner(Spieler.SPIELER);
+    zug.setDecker(Spieler.GEGNER);
+    zug.addKarte(Spieler.SPIELER, new Karte(Farbe.KREUZ, Wert.SIEBEN));
+    var phase = new Ansage(phaseninfo);
+
+    phase.spieleZug(zug);
+
+    assertThat(phase.getTrumpfKarte()).isEqualTo(new Karte(Farbe.KREUZ, Wert.SIEBEN));
+  }
 }
