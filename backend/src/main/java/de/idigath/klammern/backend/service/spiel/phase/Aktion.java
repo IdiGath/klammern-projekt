@@ -62,8 +62,8 @@ public class Aktion extends AbstractPhase implements Phase {
       gewinner = zug.getDecker();
     }
     int punkte =
-        zaehleKartenpunkte(isTrumpf(beginnerKarte.farbe()), beginnerKarte.wert())
-            + zaehleKartenpunkte(isTrumpf(deckerKarte.farbe()), deckerKarte.wert())
+        beginnerKarte.wert().getPunkteAnzahl()
+            + deckerKarte.wert().getPunkteAnzahl()
             + zaehleSonderpunkte(isTrumpf(beginnerKarte.farbe()), beginnerKarte.wert())
             + zaehleSonderpunkte(isTrumpf(deckerKarte.farbe()), deckerKarte.wert());
     kartenAusgespielt = reihen.get(Spieler.SPIELER).countSpielkarten() == 0;
@@ -97,9 +97,5 @@ public class Aktion extends AbstractPhase implements Phase {
     } else {
       return 0;
     }
-  }
-
-  private int zaehleKartenpunkte(boolean isTrumpf, Wert wert) {
-    return isTrumpf ? wert.getTrumpfWert() : wert.getStandardWert();
   }
 }
