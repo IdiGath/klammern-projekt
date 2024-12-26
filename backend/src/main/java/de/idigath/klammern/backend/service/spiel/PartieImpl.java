@@ -175,7 +175,7 @@ public class PartieImpl implements Partie {
 
   private Spieler ermittleGewinner() {
     if (augen.getPunkte(Spieler.GEGNER) < ZIEL_AUGEN
-        || augen.getPunkte(Spieler.SPIELER) < ZIEL_AUGEN) {
+        && augen.getPunkte(Spieler.SPIELER) < ZIEL_AUGEN) {
       return Spieler.NIEMAND;
     }
 

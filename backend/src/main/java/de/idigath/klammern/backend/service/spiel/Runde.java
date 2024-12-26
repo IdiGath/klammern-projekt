@@ -26,16 +26,6 @@ public class Runde {
   private Phase phase;
 
   /**
-   * Ein Test-Konstruktor, um die Vorgabe der Phase mit den Testdaten zu ermöglichen.
-   *
-   * @param phase vorgegebene Phase
-   */
-  Runde(Phase phase, Stand punktenStand) {
-    this.phase = phase;
-    punkte = punktenStand;
-  }
-
-  /**
    * Erzeugt eine neue Instanz der Runde. Die Methode übernimmt den jeweiligen Spieler, wer als
    * Beginner der Runde diesen soll. Der Beginner wird nach der Programmlogik außerhalb der Runde
    * ermittelt.
@@ -129,6 +119,6 @@ public class Runde {
    * @return true, wenn Züge möglich sind
    */
   public boolean isSpielbar() {
-    return Objects.nonNull(phase) || !(phase instanceof Ruhe);
+    return Objects.nonNull(phase) && !(phase instanceof Ruhe);
   }
 }
