@@ -58,8 +58,8 @@ class AktionTest {
     assertThat(phasenInfo.stand().getPunkte(Spieler.GEGNER)).isEqualTo(7);
 
     var zweiterZug = new Zug();
-    zweiterZug.setBeginner(Spieler.GEGNER);
-    zweiterZug.setDecker(Spieler.SPIELER);
+    zweiterZug.setBeginner(phase.getBeginner());
+    zweiterZug.setDecker(phase.getDecker());
     zweiterZug.addKarte(Spieler.GEGNER, new Karte(Farbe.HERZ, Wert.ZEHN));
     zweiterZug.addKarte(Spieler.SPIELER, new Karte(Farbe.KREUZ, Wert.ACHT));
     phase.spieleZug(zweiterZug);
@@ -67,8 +67,8 @@ class AktionTest {
     assertThat(phasenInfo.stand().getPunkte(Spieler.GEGNER)).isEqualTo(7);
 
     var dritterZug = new Zug();
-    dritterZug.setBeginner(Spieler.SPIELER);
-    dritterZug.setDecker(Spieler.GEGNER);
+    dritterZug.setBeginner(phase.getBeginner());
+    dritterZug.setDecker(phase.getDecker());
     dritterZug.addKarte(Spieler.SPIELER, new Karte(Farbe.KREUZ, Wert.NEUN));
     dritterZug.addKarte(Spieler.GEGNER, new Karte(Farbe.KREUZ, Wert.BUBE));
 
@@ -77,8 +77,8 @@ class AktionTest {
     assertThat(phasenInfo.stand().getPunkte(Spieler.GEGNER)).isEqualTo(7 + 36);
 
     var letzterZug = new Zug();
-    letzterZug.setBeginner(Spieler.GEGNER);
-    letzterZug.setDecker(Spieler.SPIELER);
+    letzterZug.setBeginner(phase.getBeginner());
+    letzterZug.setDecker(phase.getDecker());
     letzterZug.addKarte(Spieler.GEGNER, new Karte(Farbe.KARO, Wert.ACHT));
     letzterZug.addKarte(Spieler.SPIELER, new Karte(Farbe.PIK, Wert.NEUN));
 

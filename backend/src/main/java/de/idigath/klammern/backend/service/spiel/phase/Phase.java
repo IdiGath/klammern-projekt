@@ -38,6 +38,13 @@ public interface Phase {
   Spieler getBeginner();
 
   /**
+   * Aktueller Decker im Zug.
+   *
+   * @return Decker
+   */
+  Spieler getDecker();
+
+  /**
    * Gibt die Trumpfkarte zurück.
    *
    * @return Trumpfkarte

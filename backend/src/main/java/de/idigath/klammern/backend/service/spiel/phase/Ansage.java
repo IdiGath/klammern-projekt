@@ -95,7 +95,7 @@ public class Ansage extends AbstractPhase implements Phase {
     }
 
     if (Objects.isNull(beginnerHoechsteKombination)) {
-      punkteAddieren(getDecker(beginner), deckerKombi);
+      punkteAddieren(getDecker(), deckerKombi);
       return;
     }
 
@@ -114,7 +114,7 @@ public class Ansage extends AbstractPhase implements Phase {
               deckerHoechsteKombination.getValue(), deckerKombi.entrySet());
 
       if (anzahlDerGleichenDeckerKombis > anzahlDerGleichenBeginnerKombis) {
-        punkteAddieren(getDecker(beginner), deckerKombi);
+        punkteAddieren(getDecker(), deckerKombi);
         return;
       } else if (anzahlDerGleichenDeckerKombis < anzahlDerGleichenBeginnerKombis) {
         punkteAddieren(beginner, beginnerKombi);
@@ -130,7 +130,7 @@ public class Ansage extends AbstractPhase implements Phase {
     var gewinnerKombination = ermittleHoechsteKombination(zweiHoesteKombinationen);
 
     if (deckerHoechsteKombination.equals(gewinnerKombination)) {
-      punkteAddieren(getDecker(beginner), deckerKombi);
+      punkteAddieren(getDecker(), deckerKombi);
     } else {
       punkteAddieren(beginner, beginnerKombi);
     }
@@ -154,10 +154,6 @@ public class Ansage extends AbstractPhase implements Phase {
       punkte = punkte + entry.getValue().getPunkte();
     }
     stand.addPunkte(spieler, punkte);
-  }
-
-  private Spieler getDecker(Spieler beginner) {
-    return beginner.equals(Spieler.SPIELER) ? Spieler.GEGNER : Spieler.SPIELER;
   }
 
   private Map.Entry<Karte, Kombination> ermittleHoechsteKombination(

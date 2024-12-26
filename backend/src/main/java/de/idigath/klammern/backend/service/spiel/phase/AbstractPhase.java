@@ -36,6 +36,11 @@ public abstract class AbstractPhase implements Phase {
   }
 
   @Override
+  public Spieler getDecker() {
+    return beginner.equals(Spieler.SPIELER) ? Spieler.GEGNER : Spieler.SPIELER;
+  }
+
+  @Override
   public Karte getTrumpfKarte() {
     return trumpfKarte;
   }
