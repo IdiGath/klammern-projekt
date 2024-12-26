@@ -57,6 +57,15 @@ public class Runde {
   }
 
   /**
+   * Gibt den aktuellen Decker des Zuges zurück.
+   *
+   * @return Decker der Runde
+   */
+  public Spieler getDecker() {
+    return phase.getDecker();
+  }
+
+  /**
    * Gibt den aktuellen Punktestand des Spielers zurück.
    *
    * @return Punktestand des Spielers

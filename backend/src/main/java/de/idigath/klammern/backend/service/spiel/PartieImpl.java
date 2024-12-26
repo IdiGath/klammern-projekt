@@ -43,51 +43,31 @@ public class PartieImpl implements Partie {
     return random.nextBoolean() ? Spieler.SPIELER : Spieler.GEGNER;
   }
 
-  /**
-   * Gibt den Augenstand des Spielers zurück.
-   *
-   * @return Augen
-   */
+  /** {@inheritDoc} */
   @Override
   public Integer getSpielerAugen() {
     return augen.getPunkte(Spieler.SPIELER);
   }
 
-  /**
-   * Gibt den Augenstand des Gegners zurück.
-   *
-   * @return Augen
-   */
+  /** {@inheritDoc} */
   @Override
   public Integer getGegnerAugen() {
     return augen.getPunkte(Spieler.GEGNER);
   }
 
-  /**
-   * Gibt den Punktestand des Spielers in der aktuellen Runde zurück.
-   *
-   * @return Punkte
-   */
+  /** {@inheritDoc} */
   @Override
   public Integer getSpielerPunkte() {
     return runde.getSpielerPunkte();
   }
 
-  /**
-   * Gibt den Punktestand des Gegners in der aktuellen Runde zurück.
-   *
-   * @return Punkte
-   */
+  /** {@inheritDoc} */
   @Override
   public Integer getGegnerPunkte() {
     return runde.getGegnerPunkte();
   }
 
-  /**
-   * Gibt eine neue Kopie des Standhistorie zurück.
-   *
-   * @return Historie in Form einer Liste
-   */
+  /** {@inheritDoc} */
   @Override
   public List<Stand> getHistorie() {
     List<Stand> result = new LinkedList<>();
@@ -97,54 +77,44 @@ public class PartieImpl implements Partie {
     return result;
   }
 
-  /**
-   * Gibt aktuellen Beginner des Zuges zurück.
-   *
-   * @return Beginner
-   */
+  /** {@inheritDoc} */
   @Override
   public Spieler getBeginner() {
     return runde.getBeginner();
   }
 
-  /**
-   * Gibt aktuelle Trumpfkarte zurück.
-   *
-   * @return Trumpfkarte
-   */
+  /** {@inheritDoc} */
+  @Override
+  public Spieler getDecker() {
+    return runde.getDecker();
+  }
+
+  /** {@inheritDoc} */
   @Override
   public Karte getTrumpfKarte() {
     return runde.getTrumpfKarte();
   }
 
-  /**
-   * Gibt Karten des Spielers zurück.
-   *
-   * @return Kartenliste
-   */
+  /** {@inheritDoc} */
   @Override
   public List<Karte> getSpielerKarten() {
     return runde.getSpielerKarten();
   }
 
-  /**
-   * Gibt Karten des Gegners zurück.
-   *
-   * @return Kartenliste
-   */
+  /** {@inheritDoc} */
   @Override
   public List<Karte> getGegnerKarten() {
     return runde.getGegnerKarten();
   }
 
-  /** Der Spieler gibt die jeweilige Partie aus. */
+  /** {@inheritDoc} */
   @Override
   public void aufgeben() {
     aktualisiereStand();
     gewinner = Spieler.GEGNER;
   }
 
-  /** Beginnt die Parte von neu. */
+  /** {@inheritDoc} */
   @Override
   public void neuBeginnen() {
     if (gewinner.equals(Spieler.NIEMAND)) {
@@ -154,12 +124,7 @@ public class PartieImpl implements Partie {
     initPartie();
   }
 
-  /**
-   * Spielt der Zug für die aktuelle Runde. Wenn nach dem Zug die Runde nicht mehr spielbar ist,
-   * wird sie beendet und geprüft, ob die Partie ggf. ihr Ende auch erreicht hat.
-   *
-   * @param zug Spielzug
-   */
+  /** {@inheritDoc} */
   @Override
   public void spieleZug(Zug zug) {
     runde.spieleZug(zug);
@@ -171,11 +136,7 @@ public class PartieImpl implements Partie {
     }
   }
 
-  /**
-   * Gibt die Information zurück, ob die aktuelle Partie beendet ist.
-   *
-   * @return true wenn Partie beendet ist
-   */
+  /** {@inheritDoc} */
   @Override
   public boolean isFertig() {
     return !gewinner.equals(Spieler.NIEMAND)
@@ -183,13 +144,7 @@ public class PartieImpl implements Partie {
         || getSpielerAugen() >= ZIEL_AUGEN;
   }
 
-  /**
-   * Gib zurück den gewinner der Partie. Bis es Entschieden ist, kommt der Wert vom Spieler.NIEMAND
-   * zurück.
-   *
-   * @return Gewinner der Partie
-   * @see de.idigath.klammern.backend.model.Spieler
-   */
+  /** {@inheritDoc} */
   @Override
   public Spieler getGewinner() {
     return gewinner;

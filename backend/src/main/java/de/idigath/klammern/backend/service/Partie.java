@@ -55,6 +55,13 @@ public interface Partie {
   Spieler getBeginner();
 
   /**
+   * Gibt aktuellen Decker des Zuges zurück.
+   *
+   * @return Decker
+   */
+  Spieler getDecker();
+
+  /**
    * Gibt aktuelle Trumpfkarte zurück.
    *
    * @return Trumpfkarte
@@ -75,7 +82,7 @@ public interface Partie {
    */
   List<Karte> getGegnerKarten();
 
-  /** Der Spieler gibt die jeweilige Partie aus. */
+  /** Der Spieler gibt die jeweilige Partie auf. */
   void aufgeben();
 
   /** Beginnt die Parte von neu. */
