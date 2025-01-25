@@ -1,48 +1,49 @@
 package de.idigath.klammern.backend.model;
 
-import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
-
+import de.idigath.klammern.backend.config.PostgresContainer;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+
 @SpringBootTest
-class StandTest {
+class StandTest extends PostgresContainer {
 
-  @Test
-  void addSpielerPunktePunkte() {
-    Stand stand = new Stand();
-    Integer erwartetesErgebnis = 13;
-    Integer ersterSummand = 7;
-    Integer zweiterSummand = 6;
+    @Test
+    void addSpielerPunktePunkte() {
+        Stand stand = new Stand();
+        Integer erwartetesErgebnis = 13;
+        Integer ersterSummand = 7;
+        Integer zweiterSummand = 6;
 
-    stand.addPunkte(Spieler.SPIELER, ersterSummand);
-    stand.addPunkte(Spieler.SPIELER, zweiterSummand);
+        stand.addPunkte(Spieler.SPIELER, ersterSummand);
+        stand.addPunkte(Spieler.SPIELER, zweiterSummand);
 
-    assertThat(erwartetesErgebnis).isEqualTo(stand.getPunkte(Spieler.SPIELER));
-  }
+        assertThat(erwartetesErgebnis).isEqualTo(stand.getPunkte(Spieler.SPIELER));
+    }
 
-  @Test
-  void addGegnerPunktePunkte() {
-    Stand stand = new Stand();
-    Integer erwartetesErgebnis = 99;
-    Integer ersterSummand = 1;
-    Integer zweiterSummand = 98;
+    @Test
+    void addGegnerPunktePunkte() {
+        Stand stand = new Stand();
+        Integer erwartetesErgebnis = 99;
+        Integer ersterSummand = 1;
+        Integer zweiterSummand = 98;
 
-    stand.addPunkte(Spieler.GEGNER, ersterSummand);
-    stand.addPunkte(Spieler.GEGNER, zweiterSummand);
+        stand.addPunkte(Spieler.GEGNER, ersterSummand);
+        stand.addPunkte(Spieler.GEGNER, zweiterSummand);
 
-    assertThat(erwartetesErgebnis).isEqualTo(stand.getPunkte(Spieler.GEGNER));
-  }
+        assertThat(erwartetesErgebnis).isEqualTo(stand.getPunkte(Spieler.GEGNER));
+    }
 
-  @Test
-  void copyStand() {
-    Stand stand = new Stand();
-    stand.addPunkte(Spieler.SPIELER, 99);
-    stand.addPunkte(Spieler.GEGNER, 11);
+    @Test
+    void copyStand() {
+        Stand stand = new Stand();
+        stand.addPunkte(Spieler.SPIELER, 99);
+        stand.addPunkte(Spieler.GEGNER, 11);
 
-    Stand copyStand = new Stand(stand);
+        Stand copyStand = new Stand(stand);
 
-    assertThat(stand).isEqualTo(copyStand);
-    assertThat(stand).isNotSameAs(copyStand);
-  }
+        assertThat(stand).isEqualTo(copyStand);
+        assertThat(stand).isNotSameAs(copyStand);
+    }
 }
